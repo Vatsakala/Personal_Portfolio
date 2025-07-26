@@ -99,7 +99,7 @@
   }
 
   .project-card {
-    @apply glass-card p-6 group cursor-pointer;
+    @apply glass-card p-6 cursor-pointer;
     @apply hover:border-primary/50;
   }
 
