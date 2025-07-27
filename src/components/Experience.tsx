@@ -1,6 +1,9 @@
 import { MapPin, Calendar, ExternalLink } from 'lucide-react';
+import { useIntersectionObserver } from '@/hooks/use-intersection-observer';
 
 const Experience = () => {
+  const { targetRef, isIntersecting } = useIntersectionObserver();
+  
   const experiences = [
     {
       company: 'Tech Innovators Inc.',
@@ -44,9 +47,17 @@ const Experience = () => {
   ];
 
   return (
-    <section id="experience" className="py-20 px-4 sm:px-6 lg:px-8 bg-card/20">
+    <section 
+      id="experience" 
+      ref={targetRef}
+      className={`py-20 px-4 sm:px-6 lg:px-8 bg-card/20 transition-all duration-1000 ${
+        isIntersecting ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+      }`}
+    >
       <div className="max-w-5xl mx-auto">
-        <div className="text-center mb-16">
+        <div className={`text-center mb-16 transition-all duration-700 delay-200 ${
+          isIntersecting ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+        }`}>
           <h2 className="text-4xl font-bold mb-4 hero-accent">Professional Experience</h2>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
             Building expertise through hands-on internships and real-world projects
@@ -55,13 +66,28 @@ const Experience = () => {
 
         <div className="relative">
           {/* Timeline line */}
-          <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-border hidden md:block"></div>
+          <div className={`absolute left-8 top-0 bottom-0 w-0.5 bg-border hidden md:block transition-all duration-1000 delay-300 ${
+            isIntersecting ? 'opacity-100 scale-y-100' : 'opacity-0 scale-y-0'
+          }`}></div>
           
           <div className="space-y-12">
             {experiences.map((exp, index) => (
-              <div key={index} className="relative">
+              <div 
+                key={index} 
+                className={`relative transition-all duration-700 ${
+                  index === 0 ? 'delay-400' : 
+                  index === 1 ? 'delay-600' : 'delay-800'
+                } ${
+                  isIntersecting ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-8'
+                }`}
+              >
                 {/* Timeline dot */}
-                <div className="absolute left-6 w-4 h-4 bg-primary rounded-full border-4 border-background hidden md:block"></div>
+                <div className={`absolute left-6 w-4 h-4 bg-primary rounded-full border-4 border-background hidden md:block transition-all duration-500 ${
+                  index === 0 ? 'delay-500' : 
+                  index === 1 ? 'delay-700' : 'delay-900'
+                } ${
+                  isIntersecting ? 'opacity-100 scale-100' : 'opacity-0 scale-0'
+                }`}></div>
                 
                 <div className="md:ml-16">
                   <div className="glass-card p-8 hover:scale-[1.01] transition-transform duration-300">

@@ -4,8 +4,10 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
+import { useIntersectionObserver } from '@/hooks/use-intersection-observer';
 
 const Contact = () => {
+  const { targetRef, isIntersecting } = useIntersectionObserver();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -79,9 +81,17 @@ const Contact = () => {
   ];
 
   return (
-    <section id="contact" className="py-20 px-4 sm:px-6 lg:px-8 bg-card/20">
+    <section 
+      id="contact" 
+      ref={targetRef}
+      className={`py-20 px-4 sm:px-6 lg:px-8 bg-card/20 transition-all duration-1000 ${
+        isIntersecting ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+      }`}
+    >
       <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-16">
+        <div className={`text-center mb-16 transition-all duration-700 delay-200 ${
+          isIntersecting ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+        }`}>
           <h2 className="text-4xl font-bold mb-4 hero-accent">Let's Connect</h2>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
             Ready to discuss opportunities, collaborate on projects, or just have a chat about data science and technology
@@ -90,7 +100,9 @@ const Contact = () => {
 
         <div className="grid lg:grid-cols-2 gap-12">
           {/* Contact Form */}
-          <div className="glass-card p-8">
+          <div className={`glass-card p-8 transition-all duration-700 delay-300 ${
+            isIntersecting ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8'
+          }`}>
             <h3 className="text-2xl font-semibold text-foreground mb-6">Send me a message</h3>
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
@@ -100,11 +112,12 @@ const Contact = () => {
                 <Input
                   id="name"
                   name="name"
+                  type="text"
                   value={formData.name}
                   onChange={handleInputChange}
-                  placeholder="Your name"
                   required
-                  className="bg-background/50"
+                  className="w-full"
+                  placeholder="Your full name"
                 />
               </div>
               
@@ -118,9 +131,9 @@ const Contact = () => {
                   type="email"
                   value={formData.email}
                   onChange={handleInputChange}
-                  placeholder="your.email@example.com"
                   required
-                  className="bg-background/50"
+                  className="w-full"
+                  placeholder="your.email@example.com"
                 />
               </div>
               
@@ -133,48 +146,53 @@ const Contact = () => {
                   name="message"
                   value={formData.message}
                   onChange={handleInputChange}
-                  placeholder="Tell me about your project, opportunity, or just say hello!"
                   required
-                  rows={6}
-                  className="bg-background/50 resize-none"
+                  className="w-full min-h-[120px]"
+                  placeholder="Tell me about your project, opportunity, or just say hello!"
                 />
               </div>
               
-              <Button type="submit" className="btn-hero w-full group">
-                <Send className="mr-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+              <Button type="submit" className="w-full group">
+                <Send className="mr-2 h-4 w-4 group-hover:scale-110 transition-transform" />
                 Send Message
               </Button>
             </form>
           </div>
 
-          {/* Contact Information */}
-          <div className="space-y-8">
-            {/* Contact Details */}
+          {/* Contact Info & Social */}
+          <div className={`space-y-8 transition-all duration-700 delay-400 ${
+            isIntersecting ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-8'
+          }`}>
+            {/* Contact Information */}
             <div className="glass-card p-8">
               <h3 className="text-2xl font-semibold text-foreground mb-6">Get in touch</h3>
-              <div className="space-y-6">
+              <div className="space-y-4">
                 {contactInfo.map((info, index) => (
-                  <div key={index} className="flex items-center gap-4">
-                    <div className="w-12 h-12 bg-primary/20 rounded-lg flex items-center justify-center">
+                  <a
+                    key={index}
+                    href={info.href}
+                    className={`flex items-center gap-4 p-4 rounded-lg hover:bg-card/50 transition-colors duration-200 group transition-all duration-300 ${
+                      index === 0 ? 'delay-500' : 
+                      index === 1 ? 'delay-600' : 'delay-700'
+                    } ${
+                      isIntersecting ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+                    }`}
+                  >
+                    <div className="w-12 h-12 bg-primary/20 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-200">
                       <info.icon className="h-6 w-6 text-primary" />
                     </div>
                     <div>
                       <div className="text-sm text-muted-foreground">{info.label}</div>
-                      <a 
-                        href={info.href}
-                        className="text-foreground hover:text-primary transition-colors font-medium"
-                      >
-                        {info.value}
-                      </a>
+                      <div className="text-foreground font-medium">{info.value}</div>
                     </div>
-                  </div>
+                  </a>
                 ))}
               </div>
             </div>
 
             {/* Social Links */}
             <div className="glass-card p-8">
-              <h3 className="text-xl font-semibold text-foreground mb-6">Connect with me</h3>
+              <h3 className="text-2xl font-semibold text-foreground mb-6">Follow & Connect</h3>
               <div className="grid grid-cols-2 gap-4">
                 {socialLinks.map((social, index) => (
                   <a
@@ -182,31 +200,22 @@ const Contact = () => {
                     href={social.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className={`flex items-center gap-3 p-4 rounded-lg bg-background/50 hover:bg-background/80 transition-all duration-300 hover:scale-105 ${social.color}`}
+                    className={`flex items-center gap-3 p-4 rounded-lg hover:bg-card/50 transition-colors duration-200 group transition-all duration-300 ${
+                      index === 0 ? 'delay-600' : 
+                      index === 1 ? 'delay-700' : 
+                      index === 2 ? 'delay-800' : 'delay-900'
+                    } ${
+                      isIntersecting ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
+                    }`}
                   >
-                    <social.icon className="h-5 w-5" />
-                    <span className="font-medium">{social.label}</span>
+                    <div className="w-10 h-10 bg-card rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-200">
+                      <social.icon className={`h-5 w-5 ${social.color}`} />
+                    </div>
+                    <div>
+                      <div className="text-sm text-muted-foreground">{social.label}</div>
+                    </div>
                   </a>
                 ))}
-              </div>
-            </div>
-
-            {/* Availability */}
-            <div className="glass-card p-8">
-              <h3 className="text-xl font-semibold text-foreground mb-4">Current Availability</h3>
-              <div className="space-y-3">
-                <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
-                  <span className="text-muted-foreground">Open to internship opportunities</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 bg-blue-400 rounded-full animate-pulse"></div>
-                  <span className="text-muted-foreground">Available for freelance projects</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 bg-purple-400 rounded-full animate-pulse"></div>
-                  <span className="text-muted-foreground">Looking for collaboration opportunities</span>
-                </div>
               </div>
             </div>
           </div>

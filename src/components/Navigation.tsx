@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Menu, X, Moon, Sun } from 'lucide-react';
+import { Menu, X, Moon, Sun, Linkedin, Github, Mail } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const Navigation = () => {
@@ -42,6 +42,27 @@ const Navigation = () => {
     { name: 'Experience', href: '#experience' },
     { name: 'Education', href: '#education' },
     { name: 'Contact', href: '#contact' },
+  ];
+
+  const socialLinks = [
+    {
+      icon: Linkedin,
+      href: 'https://linkedin.com/in/vatsa-kala',
+      label: 'LinkedIn',
+      color: 'hover:text-blue-600 dark:hover:text-blue-400'
+    },
+    {
+      icon: Github,
+      href: 'https://github.com/vatsakala',
+      label: 'GitHub',
+      color: 'hover:text-gray-800 dark:hover:text-white'
+    },
+    {
+      icon: Mail,
+      href: 'mailto:vatsakala.contact@gmail.com',
+      label: 'Email',
+      color: 'hover:text-red-600 dark:hover:text-red-400'
+    }
   ];
 
   return (
@@ -120,6 +141,24 @@ const Navigation = () => {
               {item.name}
             </a>
           ))}
+          
+          {/* Social Links for Mobile */}
+          <div className="px-3 py-2">
+            <div className="flex space-x-4">
+              {socialLinks.map((social, index) => (
+                <a
+                  key={index}
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`text-muted-foreground hover:text-foreground transition-colors ${social.color}`}
+                  onClick={() => setIsOpen(false)}
+                >
+                  <social.icon className="w-5 h-5" />
+                </a>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </nav>

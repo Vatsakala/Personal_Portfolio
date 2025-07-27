@@ -1,6 +1,9 @@
 import { Award, BookOpen, Code, Target } from 'lucide-react';
+import { useIntersectionObserver } from '@/hooks/use-intersection-observer';
 
 const About = () => {
+  const { targetRef, isIntersecting } = useIntersectionObserver();
+  
   const stats = [
     { icon: Award, label: 'GPA', value: '4.0', color: 'text-primary' },
     { icon: Code, label: 'Internships', value: '3', color: 'text-accent' },
@@ -9,9 +12,17 @@ const About = () => {
   ];
 
   return (
-    <section id="about" className="py-20 px-4 sm:px-6 lg:px-8">
+    <section 
+      id="about" 
+      ref={targetRef}
+      className={`py-20 px-4 sm:px-6 lg:px-8 transition-all duration-1000 ${
+        isIntersecting ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+      }`}
+    >
       <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-16">
+        <div className={`text-center mb-16 transition-all duration-700 delay-200 ${
+          isIntersecting ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+        }`}>
           <h2 className="text-4xl font-bold mb-4 hero-accent">About Me</h2>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
             Driven by curiosity and passion for innovation
@@ -20,7 +31,9 @@ const About = () => {
 
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Text Content */}
-          <div className="space-y-6">
+          <div className={`space-y-6 transition-all duration-700 delay-300 ${
+            isIntersecting ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8'
+          }`}>
             <div className="glass-card p-8">
               <h3 className="text-2xl font-semibold mb-4 text-foreground">My Journey</h3>
               <p className="text-muted-foreground leading-relaxed mb-4">
@@ -59,11 +72,19 @@ const About = () => {
           </div>
 
           {/* Stats Grid */}
-          <div className="grid grid-cols-2 gap-6">
+          <div className={`grid grid-cols-2 gap-6 transition-all duration-700 delay-500 ${
+            isIntersecting ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-8'
+          }`}>
             {stats.map((stat, index) => (
               <div 
                 key={index} 
-                className="glass-card p-6 text-center group hover:scale-105 transition-transform duration-300"
+                className={`glass-card p-6 text-center group hover:scale-105 transition-all duration-300 ${
+                  index === 0 ? 'delay-600' : 
+                  index === 1 ? 'delay-700' : 
+                  index === 2 ? 'delay-800' : 'delay-900'
+                } ${
+                  isIntersecting ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
+                }`}
               >
                 <div className="inline-flex items-center justify-center w-16 h-16 bg-card rounded-2xl mb-4 group-hover:scale-110 transition-transform duration-300">
                   <stat.icon className={`h-8 w-8 ${stat.color}`} />

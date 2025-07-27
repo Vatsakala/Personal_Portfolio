@@ -1,6 +1,9 @@
 import { GraduationCap, Award, BookOpen } from 'lucide-react';
+import { useIntersectionObserver } from '@/hooks/use-intersection-observer';
 
 const Education = () => {
+  const { targetRef, isIntersecting } = useIntersectionObserver();
+  
   const education = [
     {
       degree: 'Bachelor of Science in Management Information Systems',
@@ -80,9 +83,17 @@ const Education = () => {
   ];
 
   return (
-    <section id="education" className="py-20 px-4 sm:px-6 lg:px-8">
+    <section 
+      id="education" 
+      ref={targetRef}
+      className={`py-20 px-4 sm:px-6 lg:px-8 transition-all duration-1000 ${
+        isIntersecting ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+      }`}
+    >
       <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-16">
+        <div className={`text-center mb-16 transition-all duration-700 delay-200 ${
+          isIntersecting ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+        }`}>
           <h2 className="text-4xl font-bold mb-4 hero-accent">Education & Certifications</h2>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
             Building a strong foundation through academic excellence and continuous learning
@@ -90,7 +101,9 @@ const Education = () => {
         </div>
 
         {/* Education */}
-        <div className="mb-16">
+        <div className={`mb-16 transition-all duration-700 delay-300 ${
+          isIntersecting ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+        }`}>
           {education.map((edu, index) => (
             <div key={index} className="glass-card p-8">
               <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between mb-6">
@@ -99,41 +112,44 @@ const Education = () => {
                     <GraduationCap className="h-8 w-8 text-primary" />
                   </div>
                   <div>
-                    <h3 className="text-2xl font-semibold text-foreground mb-2">{edu.degree}</h3>
+                    <h3 className="text-2xl font-semibold text-foreground">{edu.degree}</h3>
                     <h4 className="text-xl text-primary font-medium">{edu.school}</h4>
-                    <div className="text-muted-foreground mt-2">
-                      <p>{edu.location} • {edu.duration}</p>
-                      <p className="font-medium text-accent">{edu.status}</p>
-                    </div>
+                    <p className="text-muted-foreground">{edu.location} • {edu.duration}</p>
+                    <p className="text-muted-foreground">{edu.status}</p>
                   </div>
                 </div>
-                
-                <div className="text-center lg:text-right">
-                  <div className="text-3xl font-bold text-foreground">{edu.gpa}</div>
-                  <div className="text-muted-foreground">Cumulative GPA</div>
+                <div className="text-right">
+                  <div className="text-3xl font-bold text-primary">{edu.gpa}</div>
+                  <div className="text-muted-foreground">GPA</div>
                 </div>
               </div>
-
+              
               <div className="grid md:grid-cols-2 gap-8">
                 <div>
-                  <h5 className="text-lg font-semibold text-foreground mb-4">Relevant Coursework</h5>
-                  <div className="grid grid-cols-1 gap-2">
+                  <h4 className="text-lg font-semibold mb-4 text-foreground flex items-center gap-2">
+                    <BookOpen className="h-5 w-5 text-primary" />
+                    Key Coursework
+                  </h4>
+                  <div className="grid grid-cols-2 gap-2">
                     {edu.coursework.map((course, courseIndex) => (
-                      <div key={courseIndex} className="flex items-center gap-3">
-                        <div className="w-2 h-2 bg-primary rounded-full"></div>
-                        <span className="text-muted-foreground">{course}</span>
+                      <div key={courseIndex} className="flex items-center gap-2">
+                        <div className="w-1.5 h-1.5 bg-primary rounded-full"></div>
+                        <span className="text-sm text-muted-foreground">{course}</span>
                       </div>
                     ))}
                   </div>
                 </div>
                 
                 <div>
-                  <h5 className="text-lg font-semibold text-foreground mb-4">Academic Achievements</h5>
+                  <h4 className="text-lg font-semibold mb-4 text-foreground flex items-center gap-2">
+                    <Award className="h-5 w-5 text-accent" />
+                    Achievements
+                  </h4>
                   <div className="space-y-2">
                     {edu.achievements.map((achievement, achievementIndex) => (
-                      <div key={achievementIndex} className="flex items-center gap-3">
-                        <Award className="h-4 w-4 text-accent flex-shrink-0" />
-                        <span className="text-muted-foreground">{achievement}</span>
+                      <div key={achievementIndex} className="flex items-center gap-2">
+                        <div className="w-1.5 h-1.5 bg-accent rounded-full"></div>
+                        <span className="text-sm text-muted-foreground">{achievement}</span>
                       </div>
                     ))}
                   </div>
@@ -144,35 +160,52 @@ const Education = () => {
         </div>
 
         {/* Certifications */}
-        <div className="mb-16">
-          <h3 className="text-2xl font-semibold text-center text-foreground mb-8">Professional Certifications</h3>
+        <div className={`mb-16 transition-all duration-700 delay-400 ${
+          isIntersecting ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+        }`}>
+          <h3 className="text-2xl font-semibold mb-8 text-center text-foreground">Certifications</h3>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {certifications.map((cert, index) => (
-              <div key={index} className="glass-card p-6 text-center hover:scale-105 transition-transform duration-300">
-                <div className="text-4xl mb-4">{cert.icon}</div>
+              <div 
+                key={index} 
+                className={`glass-card p-6 text-center hover:scale-105 transition-all duration-300 ${
+                  index === 0 ? 'delay-500' : 
+                  index === 1 ? 'delay-600' : 
+                  index === 2 ? 'delay-700' : 
+                  index === 3 ? 'delay-800' : 'delay-900'
+                } ${
+                  isIntersecting ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
+                }`}
+              >
+                <div className="text-3xl mb-3">{cert.icon}</div>
                 <h4 className="text-lg font-semibold text-foreground mb-2">{cert.name}</h4>
                 <p className="text-muted-foreground text-sm mb-1">{cert.issuer}</p>
-                <p className="text-accent text-sm font-medium">{cert.date}</p>
+                <p className="text-primary text-sm font-medium">{cert.date}</p>
               </div>
             ))}
           </div>
         </div>
 
         {/* Leadership */}
-        <div>
-          <h3 className="text-2xl font-semibold text-center text-foreground mb-8">Leadership & Involvement</h3>
+        <div className={`transition-all duration-700 delay-500 ${
+          isIntersecting ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+        }`}>
+          <h3 className="text-2xl font-semibold mb-8 text-center text-foreground">Leadership & Activities</h3>
           <div className="grid md:grid-cols-3 gap-6">
-            {leadership.map((item, index) => (
-              <div key={index} className="glass-card p-6">
-                <div className="flex items-center gap-3 mb-4">
-                  <BookOpen className="h-6 w-6 text-primary" />
-                  <h4 className="text-lg font-semibold text-foreground">{item.role}</h4>
-                </div>
-                <p className="text-accent font-medium mb-3">{item.organization}</p>
-                <p className="text-muted-foreground text-sm mb-3 leading-relaxed">{item.description}</p>
-                <div className="text-xs text-primary font-medium bg-primary/10 px-3 py-1 rounded-full inline-block">
-                  {item.impact}
-                </div>
+            {leadership.map((role, index) => (
+              <div 
+                key={index} 
+                className={`glass-card p-6 transition-all duration-300 ${
+                  index === 0 ? 'delay-600' : 
+                  index === 1 ? 'delay-700' : 'delay-800'
+                } ${
+                  isIntersecting ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+                }`}
+              >
+                <h4 className="text-lg font-semibold text-foreground mb-2">{role.role}</h4>
+                <p className="text-primary font-medium mb-3">{role.organization}</p>
+                <p className="text-muted-foreground text-sm mb-3 leading-relaxed">{role.description}</p>
+                <div className="text-accent text-sm font-medium">{role.impact}</div>
               </div>
             ))}
           </div>
