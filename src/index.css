@@ -119,14 +119,29 @@
   * {
     @apply border-border;
   }
-
   body {
-    @apply bg-background text-foreground font-inter antialiased;
-    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    @apply bg-background text-foreground;
   }
-
-  html {
-    scroll-behavior: smooth;
+  
+  /* Prevent text selection and cursor changes on non-interactive elements */
+  h1, h2, h3, h4, h5, h6, p, span, div {
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+  }
+  
+  /* Allow text selection only on interactive elements */
+  a, button, input, textarea, [role="button"], [tabindex] {
+    user-select: auto;
+    -webkit-user-select: auto;
+    -moz-user-select: auto;
+    -ms-user-select: auto;
+  }
+  
+  /* Remove cursor pointer from non-interactive elements */
+  h1, h2, h3, h4, h5, h6, p, span, div {
+    cursor: default;
   }
 }
 

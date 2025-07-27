@@ -144,6 +144,7 @@ const Navigation = () => {
           
           {/* Social Links for Mobile */}
           <div className="px-3 py-2">
+            <div className="text-sm text-muted-foreground mb-3">Connect with me</div>
             <div className="flex space-x-4">
               {socialLinks.map((social, index) => (
                 <a
