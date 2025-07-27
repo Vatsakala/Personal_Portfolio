@@ -82,24 +82,24 @@
   .btn-hero {
     @apply bg-gradient-to-r from-primary to-accent text-primary-foreground px-8 py-4 rounded-xl font-medium;
     @apply hover:shadow-[var(--card-hover-glow)] transition-[var(--transition-smooth)];
-    @apply hover:scale-105 active:scale-95;
+    @apply hover:scale-105 active:scale-95 relative z-10;
   }
 
   .btn-ghost {
     @apply border border-border text-foreground px-8 py-4 rounded-xl font-medium;
     @apply hover:border-primary hover:text-primary transition-[var(--transition-smooth)];
-    @apply hover:shadow-[var(--card-glow)] hover:scale-105 active:scale-95;
+    @apply hover:shadow-[var(--card-glow)] hover:scale-105 active:scale-95 relative z-10;
   }
 
   /* Cards */
   .glass-card {
     @apply bg-card/50 backdrop-blur-lg border border-border rounded-2xl;
     @apply shadow-[var(--card-glow)] hover:shadow-[var(--card-hover-glow)];
-    @apply transition-[var(--transition-smooth)] hover:scale-[1.02];
+    @apply transition-[var(--transition-smooth)] hover:scale-[1.02] relative z-0;
   }
 
   .project-card {
-    @apply glass-card p-6 cursor-pointer;
+    @apply glass-card p-6 cursor-pointer relative z-0;
     @apply hover:border-primary/50;
   }
 
@@ -115,7 +115,7 @@
   .skill-badge {
     @apply bg-secondary text-secondary-foreground px-4 py-2 rounded-lg font-medium;
     @apply hover:bg-primary hover:text-primary-foreground transition-[var(--transition-smooth)];
-    @apply hover:scale-110 cursor-pointer;
+    @apply hover:scale-110 cursor-pointer relative z-0;
   }
 
   /* Animations */
