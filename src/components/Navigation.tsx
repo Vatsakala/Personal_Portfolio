@@ -8,6 +8,12 @@ const Navigation = () => {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
+    // Initialize theme state based on current HTML class
+    const htmlElement = document.documentElement;
+    setIsDark(htmlElement.classList.contains('dark'));
+  }, []);
+
+  useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
     };
@@ -16,8 +22,16 @@ const Navigation = () => {
   }, []);
 
   const toggleTheme = () => {
-    setIsDark(!isDark);
-    document.documentElement.classList.toggle('dark');
+    const htmlElement = document.documentElement;
+    const newIsDark = !isDark;
+    
+    if (newIsDark) {
+      htmlElement.classList.add('dark');
+    } else {
+      htmlElement.classList.remove('dark');
+    }
+    
+    setIsDark(newIsDark);
   };
 
   const navItems = [
