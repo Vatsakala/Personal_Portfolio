@@ -57,6 +57,7 @@ const Hero = () => {
           
           <div className="text-xl sm:text-2xl lg:text-3xl mb-8 hero-text font-light">
             <span className="inline-flex items-center gap-2">
+              <ArrowRight className="h-6 w-6 text-primary" />
               MIS Student
             </span>
             <span className="mx-4 text-muted-foreground">|</span>
