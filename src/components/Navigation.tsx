@@ -6,6 +6,8 @@ const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isDark, setIsDark] = useState(true);
   const [scrolled, setScrolled] = useState(false);
+  const [activeSection, setActiveSection] = useState('home');
+  const [isTransitioning, setIsTransitioning] = useState(false);
 
   useEffect(() => {
     // Initialize theme state based on current HTML class
@@ -16,12 +18,28 @@ const Navigation = () => {
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
+      
+      // Track active section based on scroll position
+      const sections = ['home', 'about', 'skills', 'projects', 'experience', 'education', 'contact'];
+      const scrollPosition = window.scrollY + 100; // Offset for better detection
+      
+      for (let i = sections.length - 1; i >= 0; i--) {
+        const section = document.getElementById(sections[i]);
+        if (section && section.offsetTop <= scrollPosition) {
+          setActiveSection(sections[i]);
+          break;
+        }
+      }
     };
+    
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   const toggleTheme = () => {
+    if (isTransitioning) return;
+    
+    setIsTransitioning(true);
     const htmlElement = document.documentElement;
     const newIsDark = !isDark;
     
@@ -32,16 +50,20 @@ const Navigation = () => {
     }
     
     setIsDark(newIsDark);
+    
+    setTimeout(() => {
+      setIsTransitioning(false);
+    }, 500);
   };
 
   const navItems = [
-    { name: 'Home', href: '#home' },
-    { name: 'About', href: '#about' },
-    { name: 'Skills', href: '#skills' },
-    { name: 'Projects', href: '#projects' },
-    { name: 'Experience', href: '#experience' },
-    { name: 'Education', href: '#education' },
-    { name: 'Contact', href: '#contact' },
+    { name: 'Home', href: '#home', id: 'home' },
+    { name: 'About', href: '#about', id: 'about' },
+    { name: 'Skills', href: '#skills', id: 'skills' },
+    { name: 'Projects', href: '#projects', id: 'projects' },
+    { name: 'Experience', href: '#experience', id: 'experience' },
+    { name: 'Education', href: '#education', id: 'education' },
+    { name: 'Contact', href: '#contact', id: 'contact' },
   ];
 
   const socialLinks = [
@@ -83,7 +105,11 @@ const Navigation = () => {
                 <a
                   key={item.name}
                   href={item.href}
-                  className="nav-link"
+                  className={`nav-link transition-all duration-300 ${
+                    activeSection === item.id 
+                      ? 'font-bold text-black dark:text-white' 
+                      : 'text-muted-foreground hover:text-foreground'
+                  }`}
                   onClick={() => setIsOpen(false)}
                 >
                   {item.name}
@@ -98,9 +124,16 @@ const Navigation = () => {
               variant="ghost"
               size="sm"
               onClick={toggleTheme}
+              disabled={isTransitioning}
               className="w-9 h-9 p-0"
             >
-              {isDark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+              <div className={`transition-transform duration-500 ease-in-out ${isTransitioning ? 'rotate-180' : 'rotate-0'}`}>
+                {isDark ? (
+                  <Sun className="h-4 w-4 text-yellow-400" />
+                ) : (
+                  <Moon className="h-4 w-4 text-muted-foreground" />
+                )}
+              </div>
             </Button>
           </div>
 
@@ -110,9 +143,16 @@ const Navigation = () => {
               variant="ghost"
               size="sm"
               onClick={toggleTheme}
+              disabled={isTransitioning}
               className="w-9 h-9 p-0"
             >
-              {isDark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+              <div className={`transition-transform duration-500 ease-in-out ${isTransitioning ? 'rotate-180' : 'rotate-0'}`}>
+                {isDark ? (
+                  <Sun className="h-4 w-4 text-yellow-400" />
+                ) : (
+                  <Moon className="h-4 w-4 text-muted-foreground" />
+                )}
+              </div>
             </Button>
             <Button
               variant="ghost"
@@ -135,7 +175,11 @@ const Navigation = () => {
             <a
               key={item.name}
               href={item.href}
-              className="block px-3 py-2 text-muted-foreground hover:text-foreground transition-colors"
+              className={`block px-3 py-2 transition-colors ${
+                activeSection === item.id 
+                  ? 'font-bold text-black dark:text-white bg-primary/10' 
+                  : 'text-muted-foreground hover:text-foreground'
+              }`}
               onClick={() => setIsOpen(false)}
             >
               {item.name}
@@ -144,7 +188,6 @@ const Navigation = () => {
           
           {/* Social Links for Mobile */}
           <div className="px-3 py-2">
-            <div className="text-sm text-muted-foreground mb-3">Connect with me</div>
             <div className="flex space-x-4">
               {socialLinks.map((social, index) => (
                 <a
@@ -152,7 +195,7 @@ const Navigation = () => {
                   href={social.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={`text-muted-foreground hover:text-foreground transition-colors ${social.color}`}
+                  className={`text-muted-foreground transition-colors ${social.color}`}
                   onClick={() => setIsOpen(false)}
                 >
                   <social.icon className="w-5 h-5" />
