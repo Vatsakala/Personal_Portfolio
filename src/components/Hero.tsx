@@ -71,14 +71,14 @@ const Hero = () => {
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-medium px-6 py-3 rounded-lg transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl border-0">
-              <Download className="mr-2 h-5 w-5 text-white transition-transform group-hover:scale-110" />
+            <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-medium px-6 py-3 rounded-lg transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl border-0 w-64 max-w-[30%]">
+              <Download className="mr-2 h-5 w-5 text-white transition-transform group-hover:scale-110 " />
               Download Resume
             </Button>
             
             <Button 
               variant="outline" 
-              className="border-2 border-gray-300 dark:border-gray-600 bg-white/80 dark:bg-gray-800/80 text-gray-700 dark:text-gray-200 font-medium px-6 py-3 rounded-lg transition-all duration-300 hover:scale-105 hover:bg-white dark:hover:bg-gray-700 hover:border-gray-400 dark:hover:border-gray-500 backdrop-blur-sm hover:text-gray-700 dark:hover:text-gray-200"
+              className="border-2 border-gray-300 dark:border-gray-600 bg-white/80 dark:bg-gray-800/80 text-gray-700 dark:text-gray-200 font-medium px-6 py-3 rounded-lg transition-all duration-300 hover:scale-105 hover:bg-white dark:hover:bg-gray-700 hover:border-gray-400 dark:hover:border-gray-500 backdrop-blur-sm hover:text-gray-700 dark:hover:text-gray-200 w-64 max-w-[30%]"
               onClick={scrollToContact}
             >
               <Mail className="mr-2 h-5 w-5 text-gray-700 dark:text-gray-200 transition-transform group-hover:scale-110" />
