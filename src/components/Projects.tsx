@@ -52,6 +52,7 @@ const Projects = () => {
       }`}
     >
       <div className="max-w-7xl mx-auto">
+        {/* Header */}
         <div className={`text-center mb-16 transition-all duration-700 delay-200 ${
           isIntersecting ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
         }`}>
@@ -81,9 +82,7 @@ const Projects = () => {
                 <h3 className="text-2xl font-semibold text-foreground group-hover:text-primary transition-colors">
                   {project.title}
                 </h3>
-                <p className="text-muted-foreground leading-relaxed">
-                  {project.description}
-                </p>
+                <p className="text-muted-foreground leading-relaxed">{project.description}</p>
                 
                 <div className="flex flex-wrap gap-2">
                   {project.tech.map((tech, techIndex) => (
@@ -111,7 +110,7 @@ const Projects = () => {
           ))}
         </div>
 
-        {/* Other Projects Grid */}
+        {/* Other Projects */}
         <div className={`space-y-8 transition-all duration-700 delay-600 ${
           isIntersecting ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
         }`}>
@@ -132,12 +131,8 @@ const Projects = () => {
                 </div>
                 
                 <div className="space-y-3">
-                  <h4 className="text-xl font-semibold text-foreground group-hover:text-primary transition-colors">
-                    {project.title}
-                  </h4>
-                  <p className="text-muted-foreground text-sm leading-relaxed">
-                    {project.description}
-                  </p>
+                  <h4 className="text-xl font-semibold text-foreground group-hover:text-primary transition-colors">{project.title}</h4>
+                  <p className="text-muted-foreground text-sm leading-relaxed">{project.description}</p>
                   
                   <div className="flex flex-wrap gap-2">
                     {project.tech.map((tech, techIndex) => (

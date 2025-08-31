@@ -29,57 +29,17 @@ const Education = () => {
   ];
 
   const certifications = [
-    {
-      name: 'Certified Scrum Master (CSM)',
-      issuer: 'Scrum Alliance',
-      date: '2024',
-      icon: '🏅'
-    },
-    {
-      name: 'Deep Learning Specialization',
-      issuer: 'Coursera (Andrew Ng)',
-      date: '2024',
-      icon: '🧠'
-    },
-    {
-      name: 'AWS Cloud Practitioner',
-      issuer: 'Amazon Web Services',
-      date: '2023',
-      icon: '☁️'
-    },
-    {
-      name: 'Python for Data Science',
-      issuer: 'IBM',
-      date: '2023',
-      icon: '🐍'
-    },
-    {
-      name: 'Tableau Desktop Specialist',
-      issuer: 'Tableau',
-      date: '2023',
-      icon: '📊'
-    }
+    { name: 'Certified Scrum Master (CSM)', issuer: 'Scrum Alliance', date: '2024', icon: '🏅' },
+    { name: 'Deep Learning Specialization', issuer: 'Coursera (Andrew Ng)', date: '2024', icon: '🧠' },
+    { name: 'AWS Cloud Practitioner', issuer: 'Amazon Web Services', date: '2023', icon: '☁️' },
+    { name: 'Python for Data Science', issuer: 'IBM', date: '2023', icon: '🐍' },
+    { name: 'Tableau Desktop Specialist', issuer: 'Tableau', date: '2023', icon: '📊' }
   ];
 
   const leadership = [
-    {
-      role: 'Project Lead',
-      organization: 'Rotaract Club',
-      description: 'Led 6+ community service events, managing teams of 15+ volunteers',
-      impact: '500+ community members served'
-    },
-    {
-      role: 'Peer Mentor',
-      organization: 'MIS Student Organization',
-      description: 'Mentored incoming freshmen in academic and career planning',
-      impact: '20+ students mentored'
-    },
-    {
-      role: 'Data Analytics Team Captain',
-      organization: 'University Case Competition',
-      description: 'Led team to 2nd place in regional business case competition',
-      impact: 'Top 3 finish among 50+ teams'
-    }
+    { role: 'Project Lead', organization: 'Rotaract Club', description: 'Led 6+ community service events, managing teams of 15+ volunteers', impact: '500+ community members served' },
+    { role: 'Peer Mentor', organization: 'MIS Student Organization', description: 'Mentored incoming freshmen in academic and career planning', impact: '20+ students mentored' },
+    { role: 'Data Analytics Team Captain', organization: 'University Case Competition', description: 'Led team to 2nd place in regional business case competition', impact: 'Top 3 finish among 50+ teams' }
   ];
 
   return (
@@ -105,10 +65,10 @@ const Education = () => {
           isIntersecting ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
         }`}>
           {education.map((edu, index) => (
-            <div key={index} className="glass-card p-8">
+            <div key={index} className="p-8">
               <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between mb-6">
                 <div className="flex items-start gap-4 mb-6 lg:mb-0">
-                  <div className="w-16 h-16 bg-primary/20 rounded-2xl flex items-center justify-center">
+                  <div className="w-16 h-16 rounded-2xl flex items-center justify-center">
                     <GraduationCap className="h-8 w-8 text-primary" />
                   </div>
                   <div>
@@ -168,7 +128,7 @@ const Education = () => {
             {certifications.map((cert, index) => (
               <div 
                 key={index} 
-                className={`glass-card p-6 text-center hover:scale-105 transition-all duration-300 ${
+                className={`p-6 text-center hover:scale-105 transition-all duration-300 ${
                   index === 0 ? 'delay-500' : 
                   index === 1 ? 'delay-600' : 
                   index === 2 ? 'delay-700' : 
@@ -195,7 +155,7 @@ const Education = () => {
             {leadership.map((role, index) => (
               <div 
                 key={index} 
-                className={`glass-card p-6 transition-all duration-300 ${
+                className={`p-6 transition-all duration-300 ${
                   index === 0 ? 'delay-600' : 
                   index === 1 ? 'delay-700' : 'delay-800'
                 } ${

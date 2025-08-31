@@ -50,7 +50,7 @@ const Experience = () => {
     <section 
       id="experience" 
       ref={targetRef}
-      className={`py-20 px-4 sm:px-6 lg:px-8 bg-card/20 transition-all duration-1000 ${
+      className={`py-20 px-4 sm:px-6 lg:px-8 transition-all duration-1000 ${
         isIntersecting ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
       }`}
     >
@@ -90,7 +90,7 @@ const Experience = () => {
                 }`}></div>
                 
                 <div className="md:ml-16">
-                  <div className="glass-card p-8 hover:scale-[1.01] transition-transform duration-300">
+                  <div className="p-8 hover:scale-[1.01] transition-transform duration-300">
                     <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between mb-6">
                       <div className="flex items-start gap-4 mb-4 lg:mb-0">
                         <div className="text-3xl">{exp.logo}</div>
@@ -134,7 +134,7 @@ const Experience = () => {
         </div>
 
         {/* Skills developed section */}
-        <div className="mt-16 glass-card p-8">
+        <div className="mt-16 p-8">
           <h3 className="text-2xl font-semibold mb-6 text-center text-foreground">Key Skills Developed</h3>
           <div className="grid md:grid-cols-3 gap-6 text-center">
             <div className="space-y-2">

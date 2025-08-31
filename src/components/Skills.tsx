@@ -1,3 +1,4 @@
+// components/Skills.tsx
 import { Database, Code, BarChart3, Cloud } from 'lucide-react';
 import { useIntersectionObserver } from '@/hooks/use-intersection-observer';
 
@@ -35,11 +36,12 @@ const Skills = () => {
     <section 
       id="skills" 
       ref={targetRef}
-      className={`py-20 px-4 sm:px-6 lg:px-8 bg-card/20 transition-all duration-1000 ${
+      className={`py-20 px-4 sm:px-6 lg:px-8 transition-all duration-1000 ${
         isIntersecting ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
       }`}
     >
       <div className="max-w-7xl mx-auto">
+        {/* Header */}
         <div className={`text-center mb-16 transition-all duration-700 delay-200 ${
           isIntersecting ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
         }`}>
@@ -49,6 +51,7 @@ const Skills = () => {
           </p>
         </div>
 
+        {/* Skill Category Cards */}
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
           {skillCategories.map((category, index) => (
             <div 

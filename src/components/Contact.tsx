@@ -17,7 +17,6 @@ const Contact = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Here you would typically send the form data to your backend
     toast({
       title: "Message Sent!",
       description: "Thank you for reaching out. I'll get back to you soon!",
@@ -84,7 +83,7 @@ const Contact = () => {
     <section 
       id="contact" 
       ref={targetRef}
-      className={`py-20 px-4 sm:px-6 lg:px-8 bg-card/20 transition-all duration-1000 ${
+      className={`py-20 px-4 sm:px-6 lg:px-8 transition-all duration-1000 ${
         isIntersecting ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
       }`}
     >
