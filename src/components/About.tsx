@@ -30,7 +30,7 @@ const About = () => {
               : 'opacity-0 translate-y-8 scale-95'
           }`}
         >
-          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-600 animate-scale-in">
+          <h2 className="text-4xl font-bold mb-4 hero-accent">
             About Me
           </h2>
           <p className="text-foreground/80 text-lg sm:text-xl max-w-2xl mx-auto leading-relaxed">
