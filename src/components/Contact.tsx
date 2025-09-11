@@ -68,7 +68,7 @@ const Contact = () => {
     {
       icon: Mail,
       label: 'Email',
-      href: 'mailto:vatsa.kala@email.com',
+      href: 'mailto:vatsakala.contact@gmail.com',
       color: 'text-red-400 hover:text-red-300'
     },
     {

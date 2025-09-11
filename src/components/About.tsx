@@ -30,9 +30,9 @@ const About = () => {
               : 'opacity-0 translate-y-8 scale-95'
           }`}
         >
-          <h2 className="text-4xl font-bold mb-4 hero-accent">
+          <h1 className="text-4xl font-bold mb-4 hero-accent">
             About Me
-          </h2>
+          </h1>
           <p className="text-foreground/80 text-lg sm:text-xl max-w-2xl mx-auto leading-relaxed">
             Driven by curiosity and passion for innovation
           </p>
