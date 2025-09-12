@@ -39,17 +39,16 @@ const Hero = () => {
           
           {/* Hero Subtext */}
           <div className="text-xl sm:text-2xl lg:text-3xl mb-8 font-light text-gray-600 dark:text-gray-300">
-            <span className="inline-flex items-center gap-2">MIS Student</span>
+            <span className="inline-flex items-center gap-2">Data Engineering</span>
             <span className="mx-4 text-gray-400 dark:text-gray-500">|</span>
-            <span className="hero-accent">Data + AI Enthusiast</span>
+            <span className="hero-accent">Machine Learning & AI</span>
             <span className="mx-4 text-gray-400 dark:text-gray-500">|</span>
-            <span>Full Stack Explorer</span>
+            <span>Product Strategy</span>
           </div>
           
           {/* Hero Description */}
           <p className="text-lg mb-12 max-w-2xl mx-auto leading-relaxed text-gray-600 dark:text-gray-300">
-            Passionate about leveraging data science and technology to solve real-world problems. 
-            Currently pursuing MIS while building innovative solutions in AI and web development.
+            Curious about how data shapes the world, I build systems and models that turn information into action and ideas into reality.
           </p>
           
           {/* Hero Buttons */}

@@ -5,10 +5,10 @@ const About = () => {
   const { targetRef, isIntersecting } = useIntersectionObserver();
 
   const stats = [
-    { icon: Award, label: 'GPA', value: '3.8' },
-    { icon: Code, label: 'Internships', value: '4' },
-    { icon: Target, label: 'Projects', value: '15+' },
-    { icon: BookOpen, label: 'Certifications', value: '15+' },
+    { icon: Award, label: "Texas A&M, MIS", value: '3.8/4 GPA' },
+    { icon: Code, label: 'Worked across 2 continents', value: '4 Internships' },
+    { icon: Target, label: 'Blending data, AI & full-stack dev', value: '15+ Projects' },
+    { icon: BookOpen, label: 'AWS, Azure, Scrum', value: '15+ Certifications' },
   ];
 
   return (
@@ -75,13 +75,7 @@ const About = () => {
               </h3>
               <div className="space-y-4 text-foreground/80 text-[1.05rem] leading-relaxed font-normal">
                 <p>
-                  I'm a dedicated MIS student with a passion for transforming complex data into actionable insights. 
-                  My academic journey includes hands-on experience through internships and personal projects, 
-                  applying <span className="text-blue-500 font-medium">machine learning</span>, <span className="text-cyan-500 font-medium">data analysis</span>, and <span className="text-violet-500 font-medium">full-stack development</span>.
-                </p>
-                <p>
-                  I believe in technology’s power to create positive change. From building predictive models for 
-                  disease risk assessment to developing intuitive POS systems, I aim to make a meaningful impact in <span className="text-cyan-500 font-medium">data science</span> and <span className="text-violet-500 font-medium">software development</span>.
+                 My journey in tech started with a fascination for how systems talk to each other and quickly grew into a passion for making data and AI work for people. I’ve explored this through internships, research, and projects that span data engineering, machine learning, and product design. Whether it was scaling a massive trading data platform, creating predictive models for healthcare, or building user-focused tools, I’ve always aimed to balance technical depth with real-world impact. 
                 </p>
               </div>
             </div>
