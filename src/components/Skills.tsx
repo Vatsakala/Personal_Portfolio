@@ -10,25 +10,25 @@ const Skills = () => {
       title: 'Languages',
       icon: Code,
       color: 'text-primary',
-      skills: ['Python', 'SQL', 'C++', 'R', 'JavaScript', 'TypeScript']
+      skills: ['Python', 'SQL', 'C++', 'R', 'CSS','JavaScript', 'TypeScript','Embedded C','MATLAB']
     },
     {
       title: 'Tools & Frameworks',
       icon: BarChart3,
       color: 'text-accent',
-      skills: ['Power BI', 'Tableau', 'JIRA', 'React', 'Node.js', 'Django']
+      skills: ['Flask','React','Node.js','Django','Power BI', 'Tableau', 'JIRA', 'React','Postman']
     },
     {
       title: 'Databases',
       icon: Database,
       color: 'text-primary',
-      skills: ['MongoDB', 'MySQL', 'Oracle', 'STATA', 'PostgreSQL', 'Redis']
+      skills: ['PostgreSQL', 'MySQL', 'MongoDB', 'Oracle', 'Snowflake', 'Redis','AWS RDS', 'Cassandra','SQLite']
     },
     {
       title: 'Cloud & Other',
       icon: Cloud,
       color: 'text-accent',
-      skills: ['AWS', 'Kubernetes', 'Machine Learning', 'DSA', 'Git', 'Docker']
+      skills: ['AWS (Lamba, EC2, S3)', 'Azure','Docker','Kubernetes','Terraform','ELK Stack', 'Machine Learning','Git','DSA', ]
     }
   ];
 
