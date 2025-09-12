@@ -83,8 +83,8 @@ const Contact = () => {
     <section 
       id="contact" 
       ref={targetRef}
-      className={`py-20 px-4 sm:px-6 lg:px-8 transition-all duration-1000 ${
-        isIntersecting ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+      className={`scroll-mt-15 py-20 px-4 sm:px-6 lg:px-8 transition-all duration-1000 ${
+        isIntersecting ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'
       }`}
     >
       <div className="max-w-6xl mx-auto">
