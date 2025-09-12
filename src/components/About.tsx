@@ -5,10 +5,10 @@ const About = () => {
   const { targetRef, isIntersecting } = useIntersectionObserver();
 
   const stats = [
-    { icon: Award, label: 'GPA', value: '4.0' },
-    { icon: Code, label: 'Internships', value: '3' },
+    { icon: Award, label: 'GPA', value: '3.8' },
+    { icon: Code, label: 'Internships', value: '4' },
     { icon: Target, label: 'Projects', value: '15+' },
-    { icon: BookOpen, label: 'Certifications', value: '5+' },
+    { icon: BookOpen, label: 'Certifications', value: '15+' },
   ];
 
   return (
@@ -33,7 +33,7 @@ const About = () => {
           <h1 className="text-4xl font-bold mb-4 hero-accent">
             About Me
           </h1>
-          <p className="text-foreground/80 text-lg sm:text-xl max-w-2xl mx-auto leading-relaxed">
+          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
             Driven by curiosity and passion for innovation
           </p>
         </div>
