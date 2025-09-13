@@ -1,7 +1,7 @@
 // components/Skills.tsx
 import { Database, Code, BarChart3, Cloud, ChevronDown } from 'lucide-react';
 import { useIntersectionObserver } from '@/hooks/use-intersection-observer';
-import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useLayoutEffect, useRef, useState } from 'react';
 
 type Category = {
   title: string;
@@ -9,50 +9,6 @@ type Category = {
   color: string;
   skills: string[];
 };
-
-/* --------------------------- Count-up hook --------------------------- */
-function useCountUp(target: number, opts?: { duration?: number; start?: boolean }) {
-  const duration = opts?.duration ?? 900; // ms
-  const start = !!opts?.start;
-  const [value, setValue] = useState(0);
-  const rafRef = useRef<number | null>(null);
-  const startedRef = useRef(false);
-
-  useEffect(() => {
-    if (!start || startedRef.current) return;
-
-    // Respect prefers-reduced-motion
-    const reduce =
-      typeof window !== 'undefined' &&
-      window.matchMedia &&
-      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-    startedRef.current = true;
-
-    if (reduce || duration <= 0) {
-      setValue(target);
-      return;
-    }
-
-    const t0 = performance.now();
-    const tick = (t: number) => {
-      const elapsed = t - t0;
-      const p = Math.min(1, elapsed / duration);
-      const eased = 1 - Math.pow(1 - p, 3); // ease-out cubic
-      setValue(Math.round(eased * target));
-      if (p < 1) {
-        rafRef.current = requestAnimationFrame(tick);
-      }
-    };
-    rafRef.current = requestAnimationFrame(tick);
-
-    return () => {
-      if (rafRef.current) cancelAnimationFrame(rafRef.current);
-    };
-  }, [start, target, duration]);
-
-  return value;
-}
 
 /* ------------------------- Collapsible widget ------------------------ */
 const Collapsible: React.FC<{
@@ -103,12 +59,7 @@ const Collapsible: React.FC<{
 
 const Skills = () => {
   const { targetRef, isIntersecting } = useIntersectionObserver();
-  const [hasTriggered, setHasTriggered] = useState(false); // run once
   const [openSet, setOpenSet] = useState<Set<number>>(new Set());
-
-  useEffect(() => {
-    if (isIntersecting && !hasTriggered) setHasTriggered(true);
-  }, [isIntersecting, hasTriggered]);
 
   const toggle = (i: number) =>
     setOpenSet((prev) => {
@@ -142,12 +93,6 @@ const Skills = () => {
       color: 'text-accent',
       skills: ['AWS (Lambda, EC2, S3)', 'Azure', 'Docker', 'Kubernetes', 'Terraform', 'ELK Stack', 'Machine Learning', 'Git', 'DSA'],
     },
-  ];
-
-  const core = [
-    { skill: 'Data Engineering & Machine Learning', level: 90 },
-    { skill: 'Cloud & DevOps', level: 87 },
-    { skill: 'Fullstack & Software Development', level: 84 },
   ];
 
   return (
@@ -212,37 +157,6 @@ const Skills = () => {
               </div>
             );
           })}
-        </div>
-
-        {/* === Core Competencies with original styling & count-up === */}
-        <div
-          className={`mt-16 glass-card p-8 transition-opacity transition-transform duration-700 transform-gpu will-change-[opacity,transform]
-            ${isIntersecting ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}
-          `}
-        >
-          <h3 className="text-2xl font-semibold mb-8 text-center text-foreground">Core Competencies</h3>
-          <div className="grid md:grid-cols-3 gap-8">
-            {core.map((item, index) => {
-              const count = useCountUp(item.level, { duration: 1000, start: hasTriggered });
-              return (
-                <div
-                  key={index}
-                  className={`text-center transition-opacity transition-transform duration-500 ${
-                    isIntersecting ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-                  }`}
-                >
-                  <div className="text-lg font-medium mb-3 text-foreground">{item.skill}</div>
-                  <div className="w-full bg-muted rounded-full h-3 mb-2 overflow-hidden">
-                    <div
-                      className="bg-gradient-to-r from-primary to-accent h-3 rounded-full [transition:width_1s_ease-out]"
-                      style={{ width: hasTriggered ? `${item.level}%` : '0%' }}
-                    />
-                  </div>
-                  <div className="text-sm text-muted-foreground">{count}%</div>
-                </div>
-              );
-            })}
-          </div>
         </div>
       </div>
     </section>
