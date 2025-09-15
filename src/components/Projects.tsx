@@ -45,7 +45,7 @@ const Projects = () => {
     {
       title: 'Terrainfier: Terrain Recognition model',
       description:
-        'Built a terrain classification model using transfer learning on the Jackal UGV Dataset (7 terrain classes). Achieved 97.7% accuracy with DenseNet-121 and demonstrated interpretability through GradientTape heatmaps',
+        'Developed a transfer learning–based terrain recognition model using the Jackal UGV Dataset with 7 terrain classes. Achieved 97.7% accuracy with DenseNet-121.',
       icon: Activity,
       tech: ['Python', 'TensorFlow', 'Pandas', 'Scikit-learn'],
       featured: true,
@@ -56,15 +56,15 @@ const Projects = () => {
       paperUrl: 'https://link.springer.com/chapter/10.1007/978-981-97-6794-6_52',
     },
     {
-      title: 'Community Platform',
-      description: 'Connect local communities with events, threads, and messaging.',
+      title: 'Emotion Detection Model',
+      description: 'Built a CNN-based facial emotion recognition system using the FER-2013 with 30,000+ images. Applied augmentation techniques, achieved ~99% accuracy for multiple emotions.',
       icon: Users,
-      tech: ['Django', 'PostgreSQL', 'Bootstrap', 'WebSockets'],
+      tech: ['Python', 'OpenCV', 'Tensforflow', 'Seaborn', 'Keras'],
       featured: false,
       gradient: 'from-green-500 to-teal-600',
-      image: '/projects/community.jpg',
+      image: '/public/Emotion.png',
       imageAlt: 'Community feed preview',
-      codeUrl: 'https://github.com/youruser/community-platform',
+      codeUrl: 'https://github.com/Vatsakala/Emotion-detection-Model',
     },
     {
       title: 'Game Analytics Dashboard',
