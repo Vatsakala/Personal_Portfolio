@@ -37,7 +37,7 @@ const Projects = () => {
       tech: ['PyTorch', 'Pandas', 'OpenCV', 'Scikit-learn','Keras'],
       featured: true,
       gradient: 'from-primary to-blue-600',
-      image: '/public/dorsal.png',
+      image: '/Public/Photos/dorsal.png',
       imageAlt: 'POS dashboard preview',
       codeUrl: 'https://github.com/Vatsakala/Localization-of-Palm-Veins',
       paperUrl: 'https://link.springer.com/chapter/10.1007/978-981-97-6352-8_32',
@@ -50,9 +50,9 @@ const Projects = () => {
       tech: ['Python', 'TensorFlow', 'Pandas', 'Scikit-learn'],
       featured: true,
       gradient: 'from-accent to-purple-600',
-      image: '/public/terrainfier.jpg',
+      image: '/Public/Photos/terrainfier.jpg',
       imageAlt: 'Health analytics UI',
-      codeUrl: 'https://github.com/youruser/disease-risk',
+      // codeUrl: 'https://github.com/youruser/disease-risk',
       paperUrl: 'https://link.springer.com/chapter/10.1007/978-981-97-6794-6_52',
     },
     {
@@ -62,20 +62,21 @@ const Projects = () => {
       tech: ['Python', 'OpenCV', 'Tensforflow', 'Seaborn', 'Keras'],
       featured: false,
       gradient: 'from-green-500 to-teal-600',
-      image: '/public/Emotion.png',
+      image: '/Public/Photos/Emotion.png',
       imageAlt: 'Community feed preview',
       codeUrl: 'https://github.com/Vatsakala/Emotion-detection-Model',
     },
     {
-      title: 'Game Analytics Dashboard',
-      description: 'Real-time KPIs for player behavior and monetization.',
+      title: 'AI-Powered 5G Resource Allocation',
+      description: 'Designed an AI-based resource allocation algorithm for 5G networks. Achieved a 15% reduction in resource requirements without degrading transmission quality.',
       icon: Gamepad2,
-      tech: ['React', 'D3.js', 'AWS', 'Python'],
+      tech: ['Python', 'Machine Learning', 'Network Simulation', 'Optimization Algorithms'],
       featured: false,
       gradient: 'from-orange-500 to-red-600',
-      image: '/projects/game.jpg',
+      image: '/Public/Photos/5G.png',
       imageAlt: 'Game analytics charts',
       codeUrl: 'https://github.com/youruser/game-analytics',
+      paperUrl: 'https://ieeexplore.ieee.org/document/10593937',
     },
   ];
 
@@ -239,7 +240,7 @@ const ProjectsCarousel: React.FC<{ items: Project[] }> = ({ items }) => {
       <div className="overflow-visible" onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
         <div
           ref={trackRef}
-          className="flex items-stretch will-change-transform transition-transform duration-500 ease-[cubic-bezier(0.22,0.61,0.36,1)]"
+          className="flex items-stretch will-change-transform transition-transform duration-500 [transition-timing-function:cubic-bezier(0.22,0.61,0.36,1)]"
           style={{ transform: translate, gap: `${gap}px` }}
         >
           {items.map((p, i) => {
