@@ -31,6 +31,12 @@ export type CertificateItem = {
   thumbUrl?: string;
 };
 
+type FileCheck =
+  | { state: "idle" }
+  | { state: "checking" }
+  | { state: "ok"; contentType?: string }
+  | { state: "missing" };
+
 const Education = () => {
   const { targetRef, isIntersecting } = useIntersectionObserver();
 
@@ -50,38 +56,51 @@ const Education = () => {
         "Startup Fundamentals",
         "Data Analytics and Machine Learning",
       ],
-      achievements: ["Mays Business School MS Excellence Scholarship recipinet"],
+      achievements: ["Mays Business School MS Excellence Scholarship recipient"],
       logoSrc: "/logos/TAMU.svg",
       logoAlt: "Texas A&M University logo",
     },
     {
       degree:
-        "Bachelor of Technology in Electronics and communications engineering",
+        "Bachelor of Technology in Electronics and Communications Engineering",
       school: "Pandit Deendayal Energy University",
       location: "Gandhinagar, India",
       duration: "2020 – 2024",
       gpa: "9.42/10",
-      coursework: ["Computer programming with C", "Fundamental of python programming", "Machine learning and applications", "Introduction to data mining", "Artificial Intelligence", "Internet of Things"],
-      achievements: ["Graduated Summa Cum Laude", "Awarded $1700 Research Grant for AI/ML Work"],
+      coursework: [
+        "Computer Programming with C",
+        "Fundamentals of Python Programming",
+        "Machine Learning and Applications",
+        "Introduction to Data Mining",
+        "Artificial Intelligence",
+        "Internet of Things",
+      ],
+      achievements: [
+        "Graduated Summa Cum Laude",
+        "Awarded $1700 Research Grant for AI/ML Work",
+      ],
       logoSrc: "/logos/PDEU.png",
       logoAlt: "PDEU logo",
     },
   ];
 
   const certifications: CertificateItem[] = [
-    { name: "Professional Scrum Master 1", issuer: "Scrum.org", fileUrl: "/certs/csm.pdf", thumbUrl: "/certs/csm.png"},
-    { name: "Advanced Learning Algorithms", issuer: "Standford", fileUrl: "/certs/Advanced Learning Algorithms.pdf", thumbUrl: "/certs/ALA.png" },
-    { name: "Fundamentals of Deep Learning", issuer: "Nvidia", fileUrl: "/certs/Nvidia Deep Learning.pdf", thumbUrl: "/certs/Nvidia Deep Learning.png" },
-    { name: "Data Engineer Associate", issuer: "Linkedin Learning", fileUrl: "/certs/Data_Eng.pdf", thumbUrl: "/certs/Data_Eng.png" },
+    { name: "Professional Scrum Master I", issuer: "Scrum.org", fileUrl: "/certs/csm.pdf", thumbUrl: "/certs/csm.png" },
+    { name: "Advanced Learning Algorithms", issuer: "Stanford", fileUrl: "/certs/Advanced Learning Algorithms.pdf", thumbUrl: "/certs/ALA.png" },
+    { name: "Fundamentals of Deep Learning", issuer: "NVIDIA", fileUrl: "/certs/Nvidia Deep Learning.pdf", thumbUrl: "/certs/Nvidia Deep Learning.png" },
+    { name: "Data Engineer Associate", issuer: "LinkedIn Learning", fileUrl: "/certs/Data_Eng.pdf", thumbUrl: "/certs/Data_Eng.png" },
     { name: "Power BI for Data Analysts", issuer: "Microsoft Press", fileUrl: "/certs/PowerBI.pdf", thumbUrl: "/certs/PowerBI.png" },
-    { name: "Understanding Enterpreneurship", issuer: "NPTEL", fileUrl: "/certs/Enterpreneurship.pdf", thumbUrl: "/certs/Enterpreneurship.png" },
-    { name: "Understanding Python", issuer: "Kaggle", fileUrl: "/certs/Python.pdf", thumbUrl: "/certs/Python.png" }
+    { name: "Understanding Entrepreneurship", issuer: "NPTEL", fileUrl: "/certs/Enterpreneurship.pdf", thumbUrl: "/certs/Enterpreneurship.png" },
+    { name: "Understanding Python", issuer: "Kaggle", fileUrl: "/certs/Python.pdf", thumbUrl: "/certs/Python.png" },
   ];
 
   const [open, setOpen] = useState(false);
   const [activeCert, setActiveCert] = useState<CertificateItem | null>(null);
   const [expanded, setExpanded] = useState(false);
   const [isWide, setIsWide] = useState(false);
+
+  // NEW: Track file availability so we never embed a 404 route
+  const [fileCheck, setFileCheck] = useState<FileCheck>({ state: "idle" });
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -101,7 +120,7 @@ const Education = () => {
     }
   }, []);
 
-  const visibleCount = expanded ? certifications.length : (isWide ? 4 : 2);
+  const visibleCount = expanded ? certifications.length : isWide ? 4 : 2;
   const visibleCerts = useMemo(
     () => certifications.slice(0, visibleCount),
     [certifications, visibleCount]
@@ -112,10 +131,67 @@ const Education = () => {
     setOpen(true);
   };
 
-  const isPDF = useMemo(() => {
-    if (!activeCert?.fileUrl) return false;
-    return activeCert.fileUrl.toLowerCase().endsWith(".pdf");
-  }, [activeCert]);
+  // Prefer header-based detection; fallback to extension
+  const extIsPDF = (url?: string) =>
+    !!url && /\.pdf(\?.*)?$/i.test(url);
+
+  const extIsImage = (url?: string) =>
+    !!url && /\.(png|jpe?g|webp|gif|bmp|svg)(\?.*)?$/i.test(url);
+
+  // NEW: Preflight file check whenever a cert is chosen
+  useEffect(() => {
+    let abort = false;
+    const check = async () => {
+      if (!activeCert?.fileUrl) {
+        setFileCheck({ state: "missing" });
+        return;
+      }
+      setFileCheck({ state: "checking" });
+
+      try {
+        // Try HEAD first
+        let res = await fetch(activeCert.fileUrl, {
+          method: "HEAD",
+          cache: "no-store",
+        });
+
+        // Some static hosts don’t support HEAD well; fallback to a tiny GET
+        if (!res.ok) {
+          res = await fetch(activeCert.fileUrl, {
+            method: "GET",
+            headers: { Range: "bytes=0-0" },
+            cache: "no-store",
+          });
+        }
+
+        if (abort) return;
+
+        if (res.ok) {
+          const ct = res.headers.get("content-type") || undefined;
+          setFileCheck({ state: "ok", contentType: ct || undefined });
+        } else {
+          setFileCheck({ state: "missing" });
+        }
+      } catch {
+        if (!abort) setFileCheck({ state: "missing" });
+      }
+    };
+
+    if (open && activeCert) check();
+    else setFileCheck({ state: "idle" });
+
+    return () => {
+      abort = true;
+    };
+  }, [open, activeCert]);
+
+  // Decide PDF vs Image from headers when available; fallback to extension
+  const resolvedIsPDF = useMemo(() => {
+    if (fileCheck.state === "ok" && fileCheck.contentType) {
+      return fileCheck.contentType.includes("pdf");
+    }
+    return extIsPDF(activeCert?.fileUrl);
+  }, [fileCheck, activeCert]);
 
   return (
     <section
@@ -248,14 +324,16 @@ const Education = () => {
             </h3>
             <button
               type="button"
-              onClick={() => setExpanded(v => !v)}
+              onClick={() => setExpanded((v) => !v)}
               className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-background/50 px-4 py-1.5 text-sm font-medium text-primary shadow-sm transition-all hover:bg-background/80 hover:shadow-md"
               aria-expanded={expanded}
               aria-controls="cert-grid"
             >
               {expanded ? "Show less" : `Show all (${certifications.length})`}
               <ChevronDown
-                className={`h-4 w-4 transition-transform duration-300 ${expanded ? "rotate-180" : ""}`}
+                className={`h-4 w-4 transition-transform duration-300 ${
+                  expanded ? "rotate-180" : ""
+                }`}
               />
             </button>
           </div>
@@ -265,7 +343,7 @@ const Education = () => {
             className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"
           >
             {visibleCerts.map((cert, idx) => {
-              const isImage = cert.fileUrl.match(/\.(png|jpe?g|webp|gif)$/i);
+              const isImage = extIsImage(cert.fileUrl);
               const thumb = cert.thumbUrl || (isImage ? cert.fileUrl : undefined);
               return (
                 <li key={idx}>
@@ -329,22 +407,45 @@ const Education = () => {
                 </DialogDescription>
               </DialogHeader>
               <div className="px-6 pb-6">
-                {isPDF ? (
-                  <div className="rounded-xl ring-1 ring-border overflow-hidden bg-background">
-                    <iframe
-                      title={activeCert.name}
-                      src={activeCert.fileUrl}
-                      className="w-full h-[70vh]"
-                    />
+                {/* FILE CHECK STATES */}
+                {fileCheck.state === "checking" && (
+                  <div className="rounded-xl ring-1 ring-border bg-background/60 p-12 grid place-items-center text-sm text-muted-foreground">
+                    Checking file…
                   </div>
-                ) : (
-                  <div className="rounded-xl ring-1 ring-border overflow-hidden bg-background grid place-items-center">
-                    <img
-                      src={activeCert.fileUrl}
-                      alt={activeCert.name}
-                      className="max-h-[75vh] w-auto object-contain"
-                    />
+                )}
+
+                {fileCheck.state === "missing" && (
+                  <div className="rounded-xl ring-1 ring-border bg-background/60 p-8">
+                    <p className="text-sm text-muted-foreground">
+                      This certificate file could not be found. Please verify the file path:
+                    </p>
+                    <code className="mt-2 block text-xs overflow-x-auto">
+                      {activeCert.fileUrl}
+                    </code>
                   </div>
+                )}
+
+                {fileCheck.state === "ok" && (
+                  resolvedIsPDF ? (
+                    <div className="rounded-xl ring-1 ring-border overflow-hidden bg-background">
+                      {/* Sandbox prevents any SPA 404 page from navigating or showing site controls */}
+                      <iframe
+                        title={activeCert.name}
+                        src={activeCert.fileUrl}
+                        className="w-full h-[70vh]"
+                        sandbox="allow-scripts allow-downloads allow-pointer-lock"
+                      />
+                    </div>
+                  ) : (
+                    <div className="rounded-xl ring-1 ring-border overflow-hidden bg-background grid place-items-center">
+                      <img
+                        src={activeCert.fileUrl}
+                        alt={activeCert.name}
+                        className="max-h-[75vh] w-auto object-contain"
+                        loading="eager"
+                      />
+                    </div>
+                  )
                 )}
               </div>
             </>
