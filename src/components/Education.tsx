@@ -132,7 +132,7 @@ const Education = () => {
             isIntersecting ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
           }`}
         >
-          <h2 className="text-4xl font-bold mb-4 text-center bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+          <h2 className="text-4xl font-bold mb-4 hero-accent text-center">
             Education & Certifications
           </h2>
           <p className="text-center text-muted-foreground text-lg max-w-2xl mx-auto">
