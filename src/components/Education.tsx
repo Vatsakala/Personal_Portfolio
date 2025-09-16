@@ -92,6 +92,7 @@ const Education = () => {
     { name: "Power BI for Data Analysts", issuer: "Microsoft Press", fileUrl: "/certs/PowerBI.pdf", thumbUrl: "/certs/PowerBI.png" },
     { name: "Understanding Entrepreneurship", issuer: "NPTEL", fileUrl: "/certs/Enterpreneurship.pdf", thumbUrl: "/certs/Enterpreneurship.png" },
     { name: "Understanding Python", issuer: "Kaggle", fileUrl: "/certs/Python.pdf", thumbUrl: "/certs/Python.png" },
+    { name: "Research Paper Presentation – Springer SIGMAA 2023", issuer: "Springer", fileUrl: "/certs/Springer.pdf", thumbUrl: "/certs/Springer.png" }
   ];
 
   const [open, setOpen] = useState(false);
@@ -417,11 +418,8 @@ const Education = () => {
                 {fileCheck.state === "missing" && (
                   <div className="rounded-xl ring-1 ring-border bg-background/60 p-8">
                     <p className="text-sm text-muted-foreground">
-                      This certificate file could not be found. Please verify the file path:
+                      This certificate file could not be found.
                     </p>
-                    <code className="mt-2 block text-xs overflow-x-auto">
-                      {activeCert.fileUrl}
-                    </code>
                   </div>
                 )}
 
