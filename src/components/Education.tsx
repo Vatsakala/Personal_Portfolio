@@ -1,176 +1,356 @@
-import { GraduationCap, Award, BookOpen } from 'lucide-react';
-import { useIntersectionObserver } from '@/hooks/use-intersection-observer';
+import { BookOpen, Award, ChevronDown } from "lucide-react";
+import { useIntersectionObserver } from "@/hooks/use-intersection-observer";
+import { useMemo, useState, useEffect } from "react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
+import { Badge } from "@/components/ui/badge";
+
+export type EducationItem = {
+  degree: string;
+  school: string;
+  location: string;
+  duration: string;
+  gpa?: string;
+  status?: string;
+  coursework?: string[];
+  achievements?: string[];
+  logoSrc?: string;
+  logoAlt?: string;
+};
+
+export type CertificateItem = {
+  name: string;
+  issuer: string;
+  date?: string;
+  fileUrl: string;
+  thumbUrl?: string;
+};
 
 const Education = () => {
   const { targetRef, isIntersecting } = useIntersectionObserver();
-  
-  const education = [
+
+  const education: EducationItem[] = [
     {
-      degree: 'Bachelor of Science in Management Information Systems',
-      school: 'Texas A&M University',
-      location: 'College Station, TX',
-      duration: '2022 - 2025',
-      gpa: '4.0/4.0',
-      status: 'Expected Graduation: May 2025',
+      degree: "Master of Science in Management Information Systems",
+      school: "Texas A&M University",
+      location: "College Station, TX",
+      duration: "2024 – 2026",
+      gpa: "3.83/4.0",
+      status: "Expected Graduation: May 2026",
       coursework: [
-        'Data Structures & Algorithms',
-        'Database Management Systems',
-        'Business Intelligence & Analytics',
-        'Systems Analysis & Design',
-        'Project Management',
-        'Statistics for Business'
+        "Advanced Database Systems",
+        "MIS Project Management",
+        "Advanced System Design & Analysis",
+        "Advanced Statistics for Data Science",
+        "Startup Fundamentals",
+        "Data Analytics and Machine Learning",
       ],
-      achievements: [
-        "Dean's List - All Semesters",
-        'Summa Cum Laude Candidate',
-        'MIS Academic Excellence Award'
-      ]
+      achievements: ["Mays Business School MS Excellence Scholarship recipinet"],
+      logoSrc: "/logos/TAMU.svg",
+      logoAlt: "Texas A&M University logo",
+    },
+    {
+      degree:
+        "Bachelor of Technology in Electronics and communications engineering",
+      school: "Pandit Deendayal Energy University",
+      location: "Gandhinagar, India",
+      duration: "2020 – 2024",
+      gpa: "9.42/10",
+      coursework: ["Computer programming with C", "Fundamental of python programming", "Machine learning and applications", "Introduction to data mining", "Artificial Intelligence", "Internet of Things"],
+      achievements: ["Graduated Summa Cum Laude", "Awarded $1700 Research Grant for AI/ML Work"],
+      logoSrc: "/logos/PDEU.png",
+      logoAlt: "PDEU logo",
+    },
+  ];
+
+  const certifications: CertificateItem[] = [
+    { name: "Professional Scrum Master 1", issuer: "Scrum.org", fileUrl: "/certs/csm.pdf", thumbUrl: "/certs/csm.png"},
+    { name: "Advanced Learning Algorithms", issuer: "Standford", fileUrl: "/certs/Advanced Learning Algorithms.pdf", thumbUrl: "/certs/ALA.png" },
+    { name: "Fundamentals of Deep Learning", issuer: "Nvidia", fileUrl: "/certs/Nvidia Deep Learning.pdf", thumbUrl: "/certs/Nvidia Deep Learning.png" },
+    { name: "Data Engineer Associate", issuer: "Linkedin Learning", fileUrl: "/certs/Data_Eng.pdf", thumbUrl: "/certs/Data_Eng.png" },
+    { name: "Power BI for Data Analysts", issuer: "Microsoft Press", fileUrl: "/certs/PowerBI.pdf", thumbUrl: "/certs/PowerBI.png" },
+    { name: "Understanding Enterpreneurship", issuer: "NPTEL", fileUrl: "/certs/Enterpreneurship.pdf", thumbUrl: "/certs/Enterpreneurship.png" },
+    { name: "Understanding Python", issuer: "Kaggle", fileUrl: "/certs/Python.pdf", thumbUrl: "/certs/Python.png" }
+  ];
+
+  const [open, setOpen] = useState(false);
+  const [activeCert, setActiveCert] = useState<CertificateItem | null>(null);
+  const [expanded, setExpanded] = useState(false);
+  const [isWide, setIsWide] = useState(false);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const mq = window.matchMedia("(min-width: 1024px)");
+    const onChange = (e: MediaQueryListEvent | MediaQueryList) =>
+      setIsWide("matches" in e ? e.matches : (e as MediaQueryList).matches);
+    setIsWide(mq.matches);
+    if ("addEventListener" in mq) {
+      mq.addEventListener("change", onChange as any);
+      return () => mq.removeEventListener("change", onChange as any);
+    } else {
+      // Safari fallback
+      // @ts-ignore
+      mq.addListener(onChange);
+      // @ts-ignore
+      return () => mq.removeListener(onChange);
     }
-  ];
+  }, []);
 
-  const certifications = [
-    { name: 'Certified Scrum Master (CSM)', issuer: 'Scrum Alliance', date: '2024', icon: '🏅' },
-    { name: 'Deep Learning Specialization', issuer: 'Coursera (Andrew Ng)', date: '2024', icon: '🧠' },
-    { name: 'AWS Cloud Practitioner', issuer: 'Amazon Web Services', date: '2023', icon: '☁️' },
-    { name: 'Python for Data Science', issuer: 'IBM', date: '2023', icon: '🐍' },
-    { name: 'Tableau Desktop Specialist', issuer: 'Tableau', date: '2023', icon: '📊' }
-  ];
+  const visibleCount = expanded ? certifications.length : (isWide ? 4 : 2);
+  const visibleCerts = useMemo(
+    () => certifications.slice(0, visibleCount),
+    [certifications, visibleCount]
+  );
 
-  const leadership = [
-    { role: 'Project Lead', organization: 'Rotaract Club', description: 'Led 6+ community service events, managing teams of 15+ volunteers', impact: '500+ community members served' },
-    { role: 'Peer Mentor', organization: 'MIS Student Organization', description: 'Mentored incoming freshmen in academic and career planning', impact: '20+ students mentored' },
-    { role: 'Data Analytics Team Captain', organization: 'University Case Competition', description: 'Led team to 2nd place in regional business case competition', impact: 'Top 3 finish among 50+ teams' }
-  ];
+  const handleOpen = (cert: CertificateItem) => {
+    setActiveCert(cert);
+    setOpen(true);
+  };
+
+  const isPDF = useMemo(() => {
+    if (!activeCert?.fileUrl) return false;
+    return activeCert.fileUrl.toLowerCase().endsWith(".pdf");
+  }, [activeCert]);
 
   return (
-    <section 
-      id="education" 
+    <section
+      id="education"
       ref={targetRef}
-      className={`scroll-mt-15 py-20 px-4 sm:px-6 lg:px-8 transition-all duration-1000 ${
-        isIntersecting ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'
+      className={`scroll-mt-15 py-20 px-4 sm:px-6 lg:px-8 transition-all duration-700 ${
+        isIntersecting ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"
       }`}
     >
       <div className="max-w-6xl mx-auto">
-        <div className={`text-center mb-16 transition-all duration-700 delay-200 ${
-          isIntersecting ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-        }`}>
-          <h2 className="text-4xl font-bold mb-4 hero-accent">Education & Certifications</h2>
-          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            Building a strong foundation through academic excellence and continuous learning
+        {/* Header */}
+        <div
+          className={`mb-12 transition-all duration-700 delay-100 ${
+            isIntersecting ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+          }`}
+        >
+          <h2 className="text-4xl font-bold mb-4 text-center bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+            Education & Certifications
+          </h2>
+          <p className="text-center text-muted-foreground text-lg max-w-2xl mx-auto">
+            Building expertise through academic excellence and continuous learning
           </p>
         </div>
 
-        {/* Education */}
-        <div className={`mb-16 transition-all duration-700 delay-300 ${
-          isIntersecting ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-        }`}>
-          {education.map((edu, index) => (
-            <div key={index} className="p-8">
-              <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between mb-6">
-                <div className="flex items-start gap-4 mb-6 lg:mb-0">
-                  <div className="w-16 h-16 rounded-2xl flex items-center justify-center">
-                    <GraduationCap className="h-8 w-8 text-primary" />
+        {/* Education List */}
+        <div className="relative mb-14 space-y-8">
+          {education.map((edu, idx) => (
+            <article
+              key={idx}
+              className="rounded-2xl p-6 ring-1 ring-border/40 bg-background/30 backdrop-blur-sm hover:scale-[1.01] transition-transform duration-300"
+            >
+              <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-6">
+                {/* Logo inside card */}
+                {edu.logoSrc && (
+                  <img
+                    src={edu.logoSrc}
+                    alt={edu.logoAlt || `${edu.school} logo`}
+                    className="h-24 w-24 md:h-32 md:w-32 object-contain flex-shrink-0"
+                  />
+                )}
+
+                {/* Main Info */}
+                <div className="flex-1">
+                  <h3 className="text-2xl font-semibold text-foreground leading-snug">
+                    {edu.degree}
+                  </h3>
+                  <div className="text-lg text-primary font-medium">
+                    {edu.school}
                   </div>
-                  <div>
-                    <h3 className="text-2xl font-semibold text-foreground">{edu.degree}</h3>
-                    <h4 className="text-xl text-primary font-medium">{edu.school}</h4>
-                    <p className="text-muted-foreground">{edu.location} • {edu.duration}</p>
-                    <p className="text-muted-foreground">{edu.status}</p>
+                  <div className="text-sm text-muted-foreground">
+                    {edu.location} • {edu.duration}
                   </div>
+                  {edu.status && (
+                    <div className="mt-1 text-sm text-muted-foreground">{edu.status}</div>
+                  )}
                 </div>
-                <div className="text-right">
-                  <div className="text-3xl font-bold text-primary">{edu.gpa}</div>
-                  <div className="text-muted-foreground">GPA</div>
-                </div>
+
+                {edu.gpa && (
+                  <div className="sm:text-right">
+                    <div className="inline-flex items-center gap-2 rounded-full border border-border/70 bg-background px-4 py-2">
+                      <span className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                        GPA
+                      </span>
+                      <span className="text-base font-semibold text-primary">
+                        {edu.gpa}
+                      </span>
+                    </div>
+                  </div>
+                )}
               </div>
-              
-              <div className="grid md:grid-cols-2 gap-8">
-                <div>
-                  <h4 className="text-lg font-semibold mb-4 text-foreground flex items-center gap-2">
-                    <BookOpen className="h-5 w-5 text-primary" />
-                    Key Coursework
-                  </h4>
-                  <div className="grid grid-cols-2 gap-2">
-                    {edu.coursework.map((course, courseIndex) => (
-                      <div key={courseIndex} className="flex items-center gap-2">
-                        <div className="w-1.5 h-1.5 bg-primary rounded-full"></div>
-                        <span className="text-sm text-muted-foreground">{course}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-                
-                <div>
-                  <h4 className="text-lg font-semibold mb-4 text-foreground flex items-center gap-2">
-                    <Award className="h-5 w-5 text-accent" />
-                    Achievements
-                  </h4>
-                  <div className="space-y-2">
-                    {edu.achievements.map((achievement, achievementIndex) => (
-                      <div key={achievementIndex} className="flex items-center gap-2">
-                        <div className="w-1.5 h-1.5 bg-accent rounded-full"></div>
-                        <span className="text-sm text-muted-foreground">{achievement}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
+
+              <div className="mt-6 grid gap-6 md:grid-cols-2">
+                {edu.coursework?.length ? (
+                  <section>
+                    <header className="flex items-center gap-2 mb-3">
+                      <BookOpen className="h-4 w-4 text-primary" />
+                      <h4 className="text-sm font-semibold text-foreground">
+                        Key Coursework
+                      </h4>
+                    </header>
+                    <div className="flex flex-wrap gap-2">
+                      {edu.coursework.map((c, i) => (
+                        <Badge
+                          key={i}
+                          variant="secondary"
+                          className="rounded-full px-3 py-1 text-[13px] bg-muted text-foreground/90"
+                        >
+                          {c}
+                        </Badge>
+                      ))}
+                    </div>
+                  </section>
+                ) : null}
+
+                {edu.achievements?.length ? (
+                  <section>
+                    <header className="flex items-center gap-2 mb-3">
+                      <Award className="h-4 w-4 text-primary" />
+                      <h4 className="text-sm font-semibold text-foreground">
+                        Scholarships & Honors
+                      </h4>
+                    </header>
+                    <ul className="space-y-2">
+                      {edu.achievements.map((a, i) => (
+                        <li
+                          key={i}
+                          className="flex items-start gap-2 text-sm text-muted-foreground"
+                        >
+                          <span className="mt-1 h-1.5 w-1.5 rounded-full bg-primary/70" />
+                          <span>{a}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </section>
+                ) : null}
               </div>
-            </div>
+            </article>
           ))}
         </div>
 
         {/* Certifications */}
-        <div className={`mb-16 transition-all duration-700 delay-400 ${
-          isIntersecting ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-        }`}>
-          <h3 className="text-2xl font-semibold mb-8 text-center text-foreground">Certifications</h3>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {certifications.map((cert, index) => (
-              <div 
-                key={index} 
-                className={`p-6 text-center hover:scale-105 transition-all duration-300 ${
-                  index === 0 ? 'delay-500' : 
-                  index === 1 ? 'delay-600' : 
-                  index === 2 ? 'delay-700' : 
-                  index === 3 ? 'delay-800' : 'delay-900'
-                } ${
-                  isIntersecting ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
-                }`}
-              >
-                <div className="text-3xl mb-3">{cert.icon}</div>
-                <h4 className="text-lg font-semibold text-foreground mb-2">{cert.name}</h4>
-                <p className="text-muted-foreground text-sm mb-1">{cert.issuer}</p>
-                <p className="text-primary text-sm font-medium">{cert.date}</p>
-              </div>
-            ))}
+        <div
+          className={`transition-all duration-700 delay-150 ${
+            isIntersecting ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"
+          }`}
+        >
+          <div className="flex items-center justify-between mb-5">
+            <h3 className="text-xl sm:text-2xl font-semibold text-foreground">
+              Certifications
+            </h3>
+            <button
+              type="button"
+              onClick={() => setExpanded(v => !v)}
+              className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-background/50 px-4 py-1.5 text-sm font-medium text-primary shadow-sm transition-all hover:bg-background/80 hover:shadow-md"
+              aria-expanded={expanded}
+              aria-controls="cert-grid"
+            >
+              {expanded ? "Show less" : `Show all (${certifications.length})`}
+              <ChevronDown
+                className={`h-4 w-4 transition-transform duration-300 ${expanded ? "rotate-180" : ""}`}
+              />
+            </button>
           </div>
-        </div>
 
-        {/* Leadership */}
-        <div className={`transition-all duration-700 delay-500 ${
-          isIntersecting ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-        }`}>
-          <h3 className="text-2xl font-semibold mb-8 text-center text-foreground">Leadership & Activities</h3>
-          <div className="grid md:grid-cols-3 gap-6">
-            {leadership.map((role, index) => (
-              <div 
-                key={index} 
-                className={`p-6 transition-all duration-300 ${
-                  index === 0 ? 'delay-600' : 
-                  index === 1 ? 'delay-700' : 'delay-800'
-                } ${
-                  isIntersecting ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-                }`}
-              >
-                <h4 className="text-lg font-semibold text-foreground mb-2">{role.role}</h4>
-                <p className="text-primary font-medium mb-3">{role.organization}</p>
-                <p className="text-muted-foreground text-sm mb-3 leading-relaxed">{role.description}</p>
-                <div className="text-accent text-sm font-medium">{role.impact}</div>
-              </div>
-            ))}
-          </div>
+          <ul
+            id="cert-grid"
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"
+          >
+            {visibleCerts.map((cert, idx) => {
+              const isImage = cert.fileUrl.match(/\.(png|jpe?g|webp|gif)$/i);
+              const thumb = cert.thumbUrl || (isImage ? cert.fileUrl : undefined);
+              return (
+                <li key={idx}>
+                  <button
+                    type="button"
+                    onClick={() => handleOpen(cert)}
+                    className="group w-full text-left rounded-xl p-4 ring-1 ring-border/40 bg-background/30 backdrop-blur-sm hover:scale-[1.01] transition-transform duration-300"
+                  >
+                    <div className="relative aspect-[16/10] overflow-hidden rounded-t-xl">
+                      {thumb ? (
+                        <img
+                          src={thumb}
+                          alt={`${cert.name} thumbnail`}
+                          className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]"
+                          loading="lazy"
+                        />
+                      ) : (
+                        <div className="h-full w-full grid place-items-center bg-muted/40 text-muted-foreground">
+                          <div className="flex items-center gap-2">
+                            <Award className="h-5 w-5" />
+                            <span className="text-sm">PDF Preview</span>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                    <div className="p-4">
+                      <div className="flex items-center justify-between gap-2">
+                        <h4 className="text-sm font-semibold text-foreground line-clamp-2">
+                          {cert.name}
+                        </h4>
+                        {cert.date && (
+                          <span className="shrink-0 text-xs text-muted-foreground">
+                            {cert.date}
+                          </span>
+                        )}
+                      </div>
+                      <p className="mt-1 text-xs text-muted-foreground line-clamp-1">
+                        {cert.issuer}
+                      </p>
+                    </div>
+                  </button>
+                </li>
+              );
+            })}
+          </ul>
         </div>
       </div>
+
+      {/* Cert Preview Modal */}
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogContent className="max-w-5xl p-0 overflow-hidden">
+          {activeCert && (
+            <>
+              <DialogHeader className="px-6 pt-6 pb-2">
+                <DialogTitle className="text-base sm:text-lg text-foreground">
+                  {activeCert.name}
+                </DialogTitle>
+                <DialogDescription className="text-xs sm:text-sm text-muted-foreground">
+                  {activeCert.issuer}
+                  {activeCert.date ? ` • ${activeCert.date}` : null}
+                </DialogDescription>
+              </DialogHeader>
+              <div className="px-6 pb-6">
+                {isPDF ? (
+                  <div className="rounded-xl ring-1 ring-border overflow-hidden bg-background">
+                    <iframe
+                      title={activeCert.name}
+                      src={activeCert.fileUrl}
+                      className="w-full h-[70vh]"
+                    />
+                  </div>
+                ) : (
+                  <div className="rounded-xl ring-1 ring-border overflow-hidden bg-background grid place-items-center">
+                    <img
+                      src={activeCert.fileUrl}
+                      alt={activeCert.name}
+                      className="max-h-[75vh] w-auto object-contain"
+                    />
+                  </div>
+                )}
+              </div>
+            </>
+          )}
+        </DialogContent>
+      </Dialog>
     </section>
   );
 };
