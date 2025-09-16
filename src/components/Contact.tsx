@@ -1,6 +1,6 @@
 // Contact.tsx
 import { useEffect, useState } from 'react';
-import { Mail, Phone, Linkedin, Github, Send } from 'lucide-react';
+import { Mail, Phone, Linkedin, Github, TwitterIcon, Send } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -47,8 +47,8 @@ const Contact = () => {
     {
       icon: Mail,
       label: 'Email',
-      value: 'vatsa.kala@email.com',
-      href: 'mailto:vatsa.kala@email.com'
+      value: 'vatsakala.contact@gmail.com',
+      href: 'mailto:vatsakala.contact@gmail.com'
     },
     {
       icon: Phone,
@@ -68,14 +68,14 @@ const Contact = () => {
     {
       icon: Github,
       label: 'GitHub',
-      href: 'https://github.com/vatsa-kala',
+      href: 'https://github.com/vatsakala',
       color: 'text-foreground hover:text-primary'
     },
     {
-      icon: Mail,
-      label: 'Email',
-      href: 'mailto:vatsakala.contact@gmail.com',
-      color: 'text-red-400 hover:text-red-300'
+      icon: TwitterIcon,
+      label: 'Twitter',
+      href: 'https://x.com/KalaVatsa',
+      color: 'text-blue-400 hover:text-blue-300'
     }
   ];
 
