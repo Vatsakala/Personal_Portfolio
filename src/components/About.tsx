@@ -1,39 +1,43 @@
-import { Award, BookOpen, Code, Target } from 'lucide-react';
+// src/components/About.tsx
 import { useIntersectionObserver } from '@/hooks/use-intersection-observer';
 
 const About = () => {
   const { targetRef, isIntersecting } = useIntersectionObserver();
 
+  // Logo files served from /public
+  // `tint` is used only for the small border around the white bubble (brand hint).
   const stats = [
-    { icon: Award, label: 'GPA', value: '4.0' },
-    { icon: Code, label: 'Internships', value: '3' },
-    { icon: Target, label: 'Projects', value: '15+' },
-    { icon: BookOpen, label: 'Certifications', value: '5+' },
+    { img: '/GPA.svg',        alt: 'GPA',            label: "Texas A&M, MIS",                     value: '3.8/4 GPA',          tint: '#500000' }, // maroon
+    { img: '/TT.png',         alt: 'Internships',    label: 'In Data, ML and Product Design',     value: '4 Internships',       tint: '#1DA1F2' }, // blue
+    { img: '/Projects.svg',   alt: 'Projects',       label: 'Blending data, AI & full-stack dev', value: '15+ Projects',        tint: '#6B7280' }, // gray (GitHub vibe)
+    { img: '/Certificate.svg',alt: 'Certifications', label: 'AWS, Azure, Scrum',                  value: '15+ Certifications',  tint: '#FF9900' }, // AWS orange
+  ];
+
+  // Theme-friendly gradients (cool blues/violets) – one per card, same order as stats
+  const themeGradients = [
+    'from-[hsl(var(--primary))] to-[#22d3ee]',  // blue -> cyan
+    'from-[#6366f1] to-[hsl(var(--accent))]',   // indigo -> violet
+    'from-[#0ea5e9] to-[#7c3aed]',              // sky -> violet
+    'from-[#14b8a6] to-[hsl(var(--accent))]',   // teal -> violet
   ];
 
   return (
     <section
       id="about"
       ref={targetRef}
-      className={`relative min-h-screen py-20 px-4 sm:px-6 lg:px-8 transition-all duration-1000 ${
-        isIntersecting
-          ? 'opacity-100 translate-y-0'
-          : 'opacity-0 translate-y-10'
+      className={`scroll-mt-15 relative min-h-screen py-20 px-4 sm:px-6 lg:px-8 transition-all duration-1000 ${
+        isIntersecting ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'
       }`}
     >
       <div className="relative z-10 max-w-7xl mx-auto">
         {/* Header */}
         <div
           className={`text-center mb-16 transition-all duration-700 delay-200 ${
-            isIntersecting
-              ? 'opacity-100 translate-y-0 scale-100'
-              : 'opacity-0 translate-y-8 scale-95'
+            isIntersecting ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-8 scale-95'
           }`}
         >
-          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-600 animate-scale-in">
-            About Me
-          </h2>
-          <p className="text-foreground/80 text-lg sm:text-xl max-w-2xl mx-auto leading-relaxed">
+          <h1 className="text-4xl font-bold mb-4 hero-accent">About Me</h1>
+          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
             Driven by curiosity and passion for innovation
           </p>
         </div>
@@ -44,9 +48,7 @@ const About = () => {
           <div className="lg:col-span-2 flex justify-center lg:justify-start">
             <div
               className={`transition-all duration-700 delay-300 ${
-                isIntersecting
-                  ? 'opacity-100 translate-x-0 translate-y-0'
-                  : 'opacity-0 -translate-x-8 translate-y-4'
+                isIntersecting ? 'opacity-100 translate-x-0 translate-y-0' : 'opacity-0 -translate-x-8 translate-y-4'
               }`}
             >
               <div className="relative group">
@@ -65,23 +67,13 @@ const About = () => {
           <div className="lg:col-span-3 space-y-8">
             <div
               className={`p-6 sm:p-8 transition-all duration-700 delay-500 ${
-                isIntersecting
-                  ? 'opacity-100 translate-x-0 translate-y-0'
-                  : 'opacity-0 translate-x-8 translate-y-8'
+                isIntersecting ? 'opacity-100 translate-x-0 translate-y-0' : 'opacity-0 translate-x-8 translate-y-8'
               }`}
             >
-              <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-6 text-foreground">
-                My Journey
-              </h3>
+              <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-6 text-foreground">My Journey</h3>
               <div className="space-y-4 text-foreground/80 text-[1.05rem] leading-relaxed font-normal">
                 <p>
-                  I'm a dedicated MIS student with a passion for transforming complex data into actionable insights. 
-                  My academic journey includes hands-on experience through internships and personal projects, 
-                  applying <span className="text-blue-500 font-medium">machine learning</span>, <span className="text-cyan-500 font-medium">data analysis</span>, and <span className="text-violet-500 font-medium">full-stack development</span>.
-                </p>
-                <p>
-                  I believe in technology’s power to create positive change. From building predictive models for 
-                  disease risk assessment to developing intuitive POS systems, I aim to make a meaningful impact in <span className="text-cyan-500 font-medium">data science</span> and <span className="text-violet-500 font-medium">software development</span>.
+                  My journey in tech started with a fascination for how systems talk to each other and quickly grew into a passion for making data and AI work for people. I’ve explored this through internships, research, and projects that span data engineering, machine learning, and product design. Whether it was scaling a massive trading data platform, creating predictive models for healthcare, or building user-focused tools, I’ve always aimed to balance technical depth with real-world impact.
                 </p>
               </div>
             </div>
@@ -94,30 +86,39 @@ const About = () => {
             isIntersecting ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
           }`}
         >
-          <h3 className="text-2xl sm:text-3xl font-bold mb-6 text-foreground text-center">
-            Key Highlights
-          </h3>
+          <h3 className="text-2xl sm:text-3xl font-bold mb-6 text-foreground text-center">Key Highlights</h3>
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
-            {stats.map((stat, index) => {
-              const colors = [
-                'from-blue-500 to-cyan-500',
-                'from-indigo-500 to-purple-500',
-                'from-green-500 to-teal-500',
-                'from-pink-500 to-fuchsia-500'
-              ];
-              return (
+            {stats.map((stat, index) => (
+              <div
+                key={index}
+                className={`bg-gradient-to-br ${themeGradients[index]} p-6 text-center rounded-xl shadow-lg backdrop-blur-sm hover:scale-105 transition-transform duration-300`}
+              >
+                {/* Always-white bubble with brand-tinted border */}
                 <div
-                  key={index}
-                  className={`bg-gradient-to-br ${colors[index]} p-6 text-center rounded-xl shadow-lg backdrop-blur-sm hover:scale-105 transition-transform duration-300`}
+                  className="
+                    inline-flex items-center justify-center
+                    w-14 h-14 rounded-full mb-3
+                    bg-white dark:bg-white
+                    shadow-md mix-blend-normal
+                  "
+                  style={{
+                    // subtle 2px border using brand tint @ ~25% opacity
+                    boxShadow: `0 0 0 2px ${stat.tint}40`,
+                  }}
                 >
-                  <div className="inline-flex items-center justify-center w-14 h-14 bg-background/90 rounded-full mb-3 shadow-md">
-                    <stat.icon className="h-7 w-7 text-foreground" />
-                  </div>
-                  <div className="text-xl font-semibold text-foreground">{stat.value}</div>
-                  <div className="text-foreground/80 font-medium text-sm">{stat.label}</div>
+                  <img
+                    src={stat.img}
+                    alt={stat.alt}
+                    className="w-8 h-8 object-contain"
+                    loading="lazy"
+                  />
                 </div>
-              );
-            })}
+
+                {/* Light-on-dark for themed gradients */}
+                <div className="text-xl font-semibold text-white drop-shadow-sm">{stat.value}</div>
+                <div className="text-white/90 font-medium text-sm">{stat.label}</div>
+              </div>
+            ))}
           </div>
         </div>
       </div>
