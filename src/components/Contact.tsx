@@ -76,7 +76,7 @@ const Contact = () => {
       id="contact"
       ref={targetRef}
       className={`
-        scroll-mt-24 py-20 px-4 sm:px-6 lg:px-8
+        scroll-mt-15 py-20 px-4 sm:px-6 lg:px-8
         ${isIntersecting ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'}
         transition-opacity transition-transform duration-700
         overflow-x-clip
