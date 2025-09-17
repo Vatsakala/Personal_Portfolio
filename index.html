@@ -1,17 +1,17 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en" class="dark overflow-x-hidden overscroll-x-none">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Vatsa Arvind Kala - Portfolio</title>
     <meta
       name="description"
-      content="MIS Student | Data + AI Enthusiast | Full Stack Explorer - Portfolio showcasing projects in machine learning, data science, and web development"
+      content="Data Engineerinfg | Machine Learning & AI | Product Strategy - Portfolio showcasing projects in machine learning, data science, and web development"
     />
     <meta name="author" content="Vatsa Arvind Kala" />
 
     <!-- ✅ Browser Tab Icon -->
-    <link rel="icon" type="image/png" href="/favicon-1.ico" />
+    <link rel="icon" type="image/x-icon" href="/favicon-1.ico" />
 
     <!-- ✅ Open Graph (social sharing) -->
     <meta property="og:title" content="Vatsa Arvind Kala - Portfolio" />
@@ -26,9 +26,16 @@
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="@vatsa_kala" />
     <meta name="twitter:image" content="/Favicon.png" />
+
+    <!-- 🔒 Extra safety against sideways scroll (incl. iOS) -->
+    <style>
+      html, body, #root { max-width: 100%; overflow-x: hidden; }
+      body { overscroll-behavior-x: none; touch-action: pan-y; }
+      img, iframe { max-width: 100%; }
+    </style>
   </head>
 
-  <body>
+  <body class="overflow-x-hidden overscroll-x-none">
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

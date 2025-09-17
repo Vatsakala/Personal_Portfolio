@@ -200,7 +200,7 @@ const Contact = () => {
               transition-opacity transition-transform duration-700 delay-400
             `}
           >
-            <div className="glass-card p-8">
+            <div className="glass-card p-10">
               <h3 className="text-2xl font-semibold text-foreground mb-6">Get in touch</h3>
               <div className="space-y-4">
                 {contactInfo.map((info, index) => (
