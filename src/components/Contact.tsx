@@ -102,7 +102,7 @@ const Contact = () => {
           {/* Contact Form */}
           <div
             className={`
-              glass-card p-6 sm:p-8 w-full
+              glass-card p-6 sm:p-4 w-full
               max-w-md sm:max-w-lg mx-auto
               lg:max-w-none lg:mx-0 lg:col-span-3
               ${isIntersecting ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8'}
@@ -193,7 +193,7 @@ const Contact = () => {
           {/* Contact Info & Social */}
           <div
             className={`
-              space-y-8 w-full
+              space-y-12 w-full
               max-w-md sm:max-w-lg mx-auto
               lg:max-w-none lg:mx-0 lg:col-span-2
               ${isIntersecting ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-8'}

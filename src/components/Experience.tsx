@@ -21,7 +21,7 @@ const Experience = () => {
       location: 'New York, NY',
       duration: 'May 2025 - Dec 2025',
       highlights: [
-        'Migrated 4PB of trading data from MSSQL to PostgreSQL and Snowflake on AWS, designing 500+ optimized table schemas for performance and integrity.',
+        'Migrated 4 PetaBytes of trading data from MSSQL to PostgreSQL and Snowflake on AWS, designing 500+ optimized table schemas for performance and integrity.',
         'Built and deployed backend APIs with Flask and SQLAlchemy on AWS, integrating unit tests and ELK logging for reliability.',
         'Enabled real-time analytics to support the rollout of the firm’s next-generation TradeZoom trading platform.',
       ],

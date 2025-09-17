@@ -8,7 +8,6 @@ import {
   DialogTitle,
   DialogDescription,
 } from "@/components/ui/dialog";
-import { Badge } from "@/components/ui/badge";
 
 export type EducationItem = {
   degree: string;
@@ -27,8 +26,8 @@ export type CertificateItem = {
   name: string;
   issuer: string;
   date?: string;
-  fileUrl: string;
-  thumbUrl?: string;
+  fileUrl: string;   // pdf or image
+  thumbUrl?: string; // optional thumbnail
 };
 
 type FileCheck =
@@ -36,6 +35,12 @@ type FileCheck =
   | { state: "checking" }
   | { state: "ok"; contentType?: string }
   | { state: "missing" };
+
+// Browser flags
+const ua = typeof navigator !== "undefined" ? navigator.userAgent : "";
+const isSafari =
+  /safari/i.test(ua) && !/chrome|chromium|crios|edg|opera|opr/i.test(ua);
+const isMobile = /Android|iPhone|iPad|iPod|Mobile/i.test(ua);
 
 const Education = () => {
   const { targetRef, isIntersecting } = useIntersectionObserver();
@@ -100,9 +105,12 @@ const Education = () => {
   const [expanded, setExpanded] = useState(false);
   const [isWide, setIsWide] = useState(false);
 
-  // NEW: Track file availability so we never embed a 404 route
   const [fileCheck, setFileCheck] = useState<FileCheck>({ state: "idle" });
+  const [blobUrl, setBlobUrl] = useState<string | null>(null);
 
+  const encodeUrl = (url?: string) => (url ? encodeURI(url) : "");
+
+  // media query setup
   useEffect(() => {
     if (typeof window === "undefined") return;
     const mq = window.matchMedia("(min-width: 1024px)");
@@ -113,7 +121,7 @@ const Education = () => {
       mq.addEventListener("change", onChange as any);
       return () => mq.removeEventListener("change", onChange as any);
     } else {
-      // Safari fallback
+      // Safari <14 fallback
       // @ts-ignore
       mq.addListener(onChange);
       // @ts-ignore
@@ -132,14 +140,11 @@ const Education = () => {
     setOpen(true);
   };
 
-  // Prefer header-based detection; fallback to extension
-  const extIsPDF = (url?: string) =>
-    !!url && /\.pdf(\?.*)?$/i.test(url);
-
+  const extIsPDF = (url?: string) => !!url && /\.pdf(\?.*)?$/i.test(url);
   const extIsImage = (url?: string) =>
     !!url && /\.(png|jpe?g|webp|gif|bmp|svg)(\?.*)?$/i.test(url);
 
-  // NEW: Preflight file check whenever a cert is chosen
+  // preflight file check
   useEffect(() => {
     let abort = false;
     const check = async () => {
@@ -148,25 +153,17 @@ const Education = () => {
         return;
       }
       setFileCheck({ state: "checking" });
-
+      const url = encodeUrl(activeCert.fileUrl);
       try {
-        // Try HEAD first
-        let res = await fetch(activeCert.fileUrl, {
-          method: "HEAD",
-          cache: "no-store",
-        });
-
-        // Some static hosts don’t support HEAD well; fallback to a tiny GET
+        let res = await fetch(url, { method: "HEAD", cache: "no-store" });
         if (!res.ok) {
-          res = await fetch(activeCert.fileUrl, {
+          res = await fetch(url, {
             method: "GET",
             headers: { Range: "bytes=0-0" },
             cache: "no-store",
           });
         }
-
         if (abort) return;
-
         if (res.ok) {
           const ct = res.headers.get("content-type") || undefined;
           setFileCheck({ state: "ok", contentType: ct || undefined });
@@ -180,19 +177,59 @@ const Education = () => {
 
     if (open && activeCert) check();
     else setFileCheck({ state: "idle" });
-
-    return () => {
-      abort = true;
-    };
+    return () => { abort = true; };
   }, [open, activeCert]);
 
-  // Decide PDF vs Image from headers when available; fallback to extension
+  const sameOrigin =
+    typeof window !== "undefined" &&
+    !!activeCert?.fileUrl &&
+    new URL(encodeUrl(activeCert.fileUrl), window.location.origin).origin ===
+      window.location.origin;
+
   const resolvedIsPDF = useMemo(() => {
     if (fileCheck.state === "ok" && fileCheck.contentType) {
-      return fileCheck.contentType.includes("pdf");
+      return /pdf/i.test(fileCheck.contentType);
     }
     return extIsPDF(activeCert?.fileUrl);
   }, [fileCheck, activeCert]);
+
+  const resolvedIsImage = useMemo(() => {
+    if (fileCheck.state === "ok" && fileCheck.contentType) {
+      return /^image\//i.test(fileCheck.contentType);
+    }
+    return extIsImage(activeCert?.fileUrl);
+  }, [fileCheck, activeCert]);
+
+  /**
+   * Mobile-safe PDF loader:
+   * - If same-origin + PDF: fetch -> Blob -> object/embed (works on Safari/Chrome/Edge/Opera mobile)
+   * - If cross-origin: skip inline viewer (most mobile browsers block it) and show link fallback
+   */
+  useEffect(() => {
+    let revoked = false;
+    const buildBlob = async () => {
+      setBlobUrl(null);
+      if (!open || !activeCert?.fileUrl || !resolvedIsPDF) return;
+      if (!sameOrigin) return; // cross-origin: use link fallback
+      try {
+        const res = await fetch(encodeUrl(activeCert.fileUrl), { cache: "no-store" });
+        if (!res.ok) return;
+        const blob = await res.blob();
+        const url = URL.createObjectURL(blob);
+        if (!revoked) setBlobUrl(url);
+      } catch {
+        // ignore, link fallback below will still be available
+      }
+    };
+    // Always create a blob on MOBILE; desktop can rely on native PDF viewer if desired
+    if (isMobile || isSafari) buildBlob();
+    else buildBlob(); // keep it unified & robust
+    return () => {
+      revoked = true;
+      if (blobUrl) URL.revokeObjectURL(blobUrl);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open, activeCert, resolvedIsPDF, sameOrigin]);
 
   return (
     <section
@@ -217,7 +254,7 @@ const Education = () => {
           </p>
         </div>
 
-        {/* Education List */}
+        {/* Education cards */}
         <div className="relative mb-14 space-y-8">
           {education.map((edu, idx) => (
             <article
@@ -225,7 +262,6 @@ const Education = () => {
               className="rounded-2xl p-6 ring-1 ring-border/40 bg-background/30 backdrop-blur-sm hover:scale-[1.01] transition-transform duration-300"
             >
               <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-6">
-                {/* Logo inside card */}
                 {edu.logoSrc && (
                   <img
                     src={edu.logoSrc}
@@ -233,8 +269,6 @@ const Education = () => {
                     className="h-24 w-24 md:h-32 md:w-32 object-contain flex-shrink-0"
                   />
                 )}
-
-                {/* Main Info */}
                 <div className="flex-1">
                   <h3 className="text-2xl font-semibold text-foreground leading-snug">
                     {edu.degree}
@@ -249,65 +283,14 @@ const Education = () => {
                     <div className="mt-1 text-sm text-muted-foreground">{edu.status}</div>
                   )}
                 </div>
-
                 {edu.gpa && (
                   <div className="sm:text-right">
                     <div className="inline-flex items-center gap-2 rounded-full border border-border/70 bg-background px-4 py-2">
-                      <span className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
-                        GPA
-                      </span>
-                      <span className="text-base font-semibold text-primary">
-                        {edu.gpa}
-                      </span>
+                      <span className="text-xs font-medium uppercase tracking-wide text-muted-foreground">GPA</span>
+                      <span className="text-base font-semibold text-primary">{edu.gpa}</span>
                     </div>
                   </div>
                 )}
-              </div>
-
-              <div className="mt-6 grid gap-6 md:grid-cols-2">
-                {edu.coursework?.length ? (
-                  <section>
-                    <header className="flex items-center gap-2 mb-3">
-                      <BookOpen className="h-4 w-4 text-primary" />
-                      <h4 className="text-sm font-semibold text-foreground">
-                        Key Coursework
-                      </h4>
-                    </header>
-                    <div className="flex flex-wrap gap-2">
-                      {edu.coursework.map((c, i) => (
-                        <Badge
-                          key={i}
-                          variant="secondary"
-                          className="rounded-full px-3 py-1 text-[13px] bg-muted text-foreground/90"
-                        >
-                          {c}
-                        </Badge>
-                      ))}
-                    </div>
-                  </section>
-                ) : null}
-
-                {edu.achievements?.length ? (
-                  <section>
-                    <header className="flex items-center gap-2 mb-3">
-                      <Award className="h-4 w-4 text-primary" />
-                      <h4 className="text-sm font-semibold text-foreground">
-                        Scholarships & Honors
-                      </h4>
-                    </header>
-                    <ul className="space-y-2">
-                      {edu.achievements.map((a, i) => (
-                        <li
-                          key={i}
-                          className="flex items-start gap-2 text-sm text-muted-foreground"
-                        >
-                          <span className="mt-1 h-1.5 w-1.5 rounded-full bg-primary/70" />
-                          <span>{a}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </section>
-                ) : null}
               </div>
             </article>
           ))}
@@ -320,9 +303,7 @@ const Education = () => {
           }`}
         >
           <div className="flex items-center justify-between mb-5">
-            <h3 className="text-xl sm:text-2xl font-semibold text-foreground">
-              Certifications
-            </h3>
+            <h3 className="text-xl sm:text-2xl font-semibold text-foreground">Certifications</h3>
             <button
               type="button"
               onClick={() => setExpanded((v) => !v)}
@@ -331,18 +312,11 @@ const Education = () => {
               aria-controls="cert-grid"
             >
               {expanded ? "Show less" : `Show all (${certifications.length})`}
-              <ChevronDown
-                className={`h-4 w-4 transition-transform duration-300 ${
-                  expanded ? "rotate-180" : ""
-                }`}
-              />
+              <ChevronDown className={`h-4 w-4 transition-transform duration-300 ${expanded ? "rotate-180" : ""}`} />
             </button>
           </div>
 
-          <ul
-            id="cert-grid"
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"
-          >
+          <ul id="cert-grid" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
             {visibleCerts.map((cert, idx) => {
               const isImage = extIsImage(cert.fileUrl);
               const thumb = cert.thumbUrl || (isImage ? cert.fileUrl : undefined);
@@ -356,7 +330,7 @@ const Education = () => {
                     <div className="relative aspect-[16/10] overflow-hidden rounded-t-xl">
                       {thumb ? (
                         <img
-                          src={thumb}
+                          src={encodeUrl(thumb)}
                           alt={`${cert.name} thumbnail`}
                           className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]"
                           loading="lazy"
@@ -371,19 +345,8 @@ const Education = () => {
                       )}
                     </div>
                     <div className="p-4">
-                      <div className="flex items-center justify-between gap-2">
-                        <h4 className="text-sm font-semibold text-foreground line-clamp-2">
-                          {cert.name}
-                        </h4>
-                        {cert.date && (
-                          <span className="shrink-0 text-xs text-muted-foreground">
-                            {cert.date}
-                          </span>
-                        )}
-                      </div>
-                      <p className="mt-1 text-xs text-muted-foreground line-clamp-1">
-                        {cert.issuer}
-                      </p>
+                      <h4 className="text-sm font-semibold text-foreground line-clamp-2">{cert.name}</h4>
+                      <p className="mt-1 text-xs text-muted-foreground line-clamp-1">{cert.issuer}</p>
                     </div>
                   </button>
                 </li>
@@ -393,22 +356,20 @@ const Education = () => {
         </div>
       </div>
 
-      {/* Cert Preview Modal */}
+      {/* Modal */}
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="max-w-5xl p-0 overflow-hidden">
+        <DialogContent className="sm:max-w-[90vw] max-w-5xl p-0 overflow-hidden">
           {activeCert && (
             <>
               <DialogHeader className="px-6 pt-6 pb-2">
-                <DialogTitle className="text-base sm:text-lg text-foreground">
-                  {activeCert.name}
-                </DialogTitle>
+                <DialogTitle className="text-base sm:text-lg text-foreground">{activeCert.name}</DialogTitle>
                 <DialogDescription className="text-xs sm:text-sm text-muted-foreground">
                   {activeCert.issuer}
                   {activeCert.date ? ` • ${activeCert.date}` : null}
                 </DialogDescription>
               </DialogHeader>
+
               <div className="px-6 pb-6">
-                {/* FILE CHECK STATES */}
                 {fileCheck.state === "checking" && (
                   <div className="rounded-xl ring-1 ring-border bg-background/60 p-12 grid place-items-center text-sm text-muted-foreground">
                     Checking file…
@@ -417,33 +378,83 @@ const Education = () => {
 
                 {fileCheck.state === "missing" && (
                   <div className="rounded-xl ring-1 ring-border bg-background/60 p-8">
-                    <p className="text-sm text-muted-foreground">
-                      This certificate file could not be found.
-                    </p>
+                    <p className="text-sm text-muted-foreground">This certificate file could not be found.</p>
+                    <div className="mt-3">
+                      <a
+                        href={encodeUrl(activeCert.fileUrl)}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="underline text-primary text-sm"
+                      >
+                        Open in a new tab
+                      </a>
+                    </div>
                   </div>
                 )}
 
                 {fileCheck.state === "ok" && (
-                  resolvedIsPDF ? (
-                    <div className="rounded-xl ring-1 ring-border overflow-hidden bg-background">
-                      {/* Sandbox prevents any SPA 404 page from navigating or showing site controls */}
-                      <iframe
-                        title={activeCert.name}
-                        src={activeCert.fileUrl}
-                        className="w-full h-[70vh]"
-                        sandbox="allow-scripts allow-downloads allow-pointer-lock"
-                      />
-                    </div>
-                  ) : (
-                    <div className="rounded-xl ring-1 ring-border overflow-hidden bg-background grid place-items-center">
-                      <img
-                        src={activeCert.fileUrl}
-                        alt={activeCert.name}
-                        className="max-h-[75vh] w-auto object-contain"
-                        loading="eager"
-                      />
-                    </div>
-                  )
+                  <>
+                    {resolvedIsImage && (
+                      <div className="rounded-xl ring-1 ring-border overflow-hidden bg-background grid place-items-center">
+                        <img
+                          src={encodeUrl(activeCert.fileUrl)}
+                          alt={activeCert.name}
+                          className="max-h-[75svh] w-auto object-contain"
+                          loading="eager"
+                        />
+                      </div>
+                    )}
+
+                    {resolvedIsPDF && (
+                      <>
+                        {/* Same-origin blob => reliable on mobile */}
+                        {sameOrigin && blobUrl ? (
+                          <div className="rounded-xl ring-1 ring-border overflow-hidden bg-background">
+                            <object
+                              data={blobUrl}
+                              type="application/pdf"
+                              className="w-full h-[70svh] block"
+                            >
+                              <embed src={blobUrl} type="application/pdf" className="w-full h-[70svh] block" />
+                            </object>
+                          </div>
+                        ) : (
+                          // Cross-origin: show link fallback (mobile browsers often block inline viewer)
+                          <div className="rounded-xl ring-1 ring-border bg-background/60 p-8">
+                            <p className="text-sm text-muted-foreground">
+                              This PDF is hosted on another domain and may not render inside the page on mobile.
+                            </p>
+                            <div className="mt-3">
+                              <a
+                                href={encodeUrl(activeCert.fileUrl)}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="underline text-primary text-sm"
+                              >
+                                Open the PDF in a new tab
+                              </a>
+                            </div>
+                          </div>
+                        )}
+                      </>
+                    )}
+                  </>
+                )}
+
+                {/* Footer helper for all cases */}
+                {fileCheck.state === "ok" && resolvedIsPDF && (
+                  <div className="p-3 text-xs text-muted-foreground">
+                    Can’t see it?{" "}
+                    <a
+                      href={encodeUrl(activeCert.fileUrl)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="underline text-primary"
+                    >
+                      Open the PDF in a new tab
+                    </a>
+                    .
+                  </div>
                 )}
               </div>
             </>
