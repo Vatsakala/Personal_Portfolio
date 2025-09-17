@@ -22,7 +22,7 @@ type Project = {
   image?: string;
   imageAlt?: string;
   codeUrl?: string;
-  paperUrl?: string; // optional; omit to hide Paper button
+  paperUrl?: string;
 };
 
 const Projects = () => {
@@ -34,10 +34,10 @@ const Projects = () => {
       description:
         'Developed an explainable AI system for biometric authentication using 11,000+ dorsal palm vein images. Achieved 95.3% validation accuracy and published results in Springer.',
       icon: ShoppingCart,
-      tech: ['PyTorch', 'Pandas', 'OpenCV', 'Scikit-learn','Keras'],
+      tech: ['PyTorch', 'Pandas', 'OpenCV', 'Scikit-learn', 'Keras'],
       featured: true,
       gradient: 'from-primary to-blue-600',
-      image: '/Public/photos/dorsal.png',
+      image: '/Public/proj/dorsal.png',
       imageAlt: 'POS dashboard preview',
       codeUrl: 'https://github.com/Vatsakala/Localization-of-Palm-Veins',
       paperUrl: 'https://link.springer.com/chapter/10.1007/978-981-97-6352-8_32',
@@ -50,39 +50,38 @@ const Projects = () => {
       tech: ['Python', 'TensorFlow', 'Pandas', 'Scikit-learn'],
       featured: true,
       gradient: 'from-accent to-purple-600',
-      image: '/Public/photos/terrainfier.jpg',
+      image: '/Public/proj/terrainfier.jpg',
       imageAlt: 'Health analytics UI',
-      // codeUrl: 'https://github.com/youruser/disease-risk',
       paperUrl: 'https://link.springer.com/chapter/10.1007/978-981-97-6794-6_52',
     },
     {
       title: 'Emotion Detection Model',
-      description: 'Built a CNN-based facial emotion recognition system using the FER-2013 with 30,000+ images. Applied augmentation techniques, achieved ~99% accuracy for multiple emotions.',
+      description:
+        'Built a CNN-based facial emotion recognition system using the FER-2013 with 30,000+ images. Applied augmentation techniques, achieved ~99% accuracy for multiple emotions.',
       icon: Users,
       tech: ['Python', 'OpenCV', 'Tensforflow', 'Seaborn', 'Keras'],
       featured: false,
       gradient: 'from-green-500 to-teal-600',
-      image: '/Public/photos/Emotion.png',
+      image: '/Public/proj/Emotion.png',
       imageAlt: 'Community feed preview',
       codeUrl: 'https://github.com/Vatsakala/Emotion-detection-Model',
     },
     {
       title: 'AI-Powered 5G Resource Allocation',
-      description: 'Designed an AI-based resource allocation algorithm for 5G networks. Achieved a 15% reduction in resource requirements without degrading transmission quality.',
+      description:
+        'Designed an AI-based resource allocation algorithm for 5G networks. Achieved a 15% reduction in resource requirements without degrading transmission quality.',
       icon: Gamepad2,
       tech: ['Python', 'Machine Learning', 'Network Simulation', 'Optimization Algorithms'],
       featured: false,
       gradient: 'from-orange-500 to-red-600',
-      image: '/Public/photos/5G.png',
+      image: '/Public/proj/5G.png',
       imageAlt: 'Game analytics charts',
       codeUrl: 'https://github.com/youruser/game-analytics',
       paperUrl: 'https://ieeexplore.ieee.org/document/10593937',
     },
   ];
 
-  // Featured first
   const ordered = [...projects.filter(p => p.featured), ...projects.filter(p => !p.featured)];
-
   const appear = isIntersecting ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6';
   const together =
     'transition-opacity transition-transform duration-700 delay-200 will-change-transform';
@@ -94,7 +93,6 @@ const Projects = () => {
       className={`scroll-mt-15 py-20 px-4 sm:px-6 lg:px-8 ${together} ${appear}`}
     >
       <div className="max-w-7xl mx-auto">
-        {/* Header */}
         <div className={`text-center mb-10 sm:mb-14 ${together} ${appear}`}>
           <h2 className="text-4xl font-bold mb-4 hero-accent">Featured Projects</h2>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
@@ -111,24 +109,19 @@ const Projects = () => {
 export default Projects;
 
 /* ===================== */
-/* Subtle, High-Contrast Tech Chip */
+/* Tech Chip */
 /* ===================== */
 
 const TechChip: React.FC<{ label: string }> = ({ label }) => {
   return (
     <span
       className={[
-        // layout + typography
-        "inline-flex items-center rounded-md px-2.5 py-0.5 text-xs font-medium",
-        // LIGHT MODE: clear contrast
-        "bg-slate-100/90 border border-slate-200 text-slate-700 shadow-sm",
-        // HOVER (light)
-        "hover:bg-slate-200/80 hover:text-slate-800",
-        // DARK MODE: subtle glass
-        "dark:bg-white/[0.06] dark:border-white/10 dark:text-foreground/85 dark:hover:bg-white/[0.1]",
-        // transitions + focus
-        "transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 dark:focus-visible:ring-primary/40",
-      ].join(" ")}
+        'inline-flex items-center rounded-md px-2.5 py-0.5 text-xs font-medium',
+        'bg-slate-100/90 border border-slate-200 text-slate-700 shadow-sm',
+        'hover:bg-slate-200/80 hover:text-slate-800',
+        'dark:bg-white/[0.06] dark:border-white/10 dark:text-foreground/85 dark:hover:bg-white/[0.1]',
+        'transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 dark:focus-visible:ring-primary/40',
+      ].join(' ')}
     >
       {label}
     </span>
@@ -136,27 +129,25 @@ const TechChip: React.FC<{ label: string }> = ({ label }) => {
 };
 
 /* ===================== */
-/* Carousel Subcomponent */
+/* Carousel */
 /* ===================== */
 
 const ProjectsCarousel: React.FC<{ items: Project[] }> = ({ items }) => {
   const [index, setIndex] = React.useState(0);
   const count = items.length;
 
-  const trackRef = React.useRef<HTMLDivElement | null>(null);
-
-  // Defaults match your full-view (desktop) behavior
+  // measurements for centering math
   const [cardW, setCardW] = React.useState(620);
   const [gap, setGap] = React.useState(20);
 
   const clamp = (i: number) => (i < 0 ? count - 1 : i >= count ? 0 : i);
-  const go = (d: number) => setIndex((prev) => clamp(prev + d));
+  const go = (d: number) => setIndex(prev => clamp(prev + d));
   const goTo = (i: number) => setIndex(clamp(i));
 
-  // Only adjust widths below md so full view remains untouched.
+  // desktop unchanged; phones: one full card, discrete swipe
   React.useLayoutEffect(() => {
-    const mqMd = window.matchMedia('(min-width: 768px)'); // md
-    const mqSm = window.matchMedia('(min-width: 640px)'); // sm
+    const mqSm = window.matchMedia('(min-width: 640px)');
+    const mqMd = window.matchMedia('(min-width: 768px)');
 
     const measure = () => {
       if (mqMd.matches) {
@@ -164,31 +155,25 @@ const ProjectsCarousel: React.FC<{ items: Project[] }> = ({ items }) => {
         setGap(20);
         return;
       }
-
       if (mqSm.matches) {
         setCardW(560);
         setGap(16);
         return;
       }
-
-      // < sm: card is `w-[92vw]`
-      const firstCard = trackRef.current?.querySelector<HTMLElement>('.carousel-card');
-      const w = firstCard?.getBoundingClientRect().width ?? Math.round(window.innerWidth * 0.92);
-      setCardW(w);
+      // phones
+      setCardW(Math.round(window.innerWidth * 0.92));
       setGap(12);
     };
 
     measure();
     const onResize = () => measure();
-
     window.addEventListener('resize', onResize);
-    mqMd.addEventListener?.('change', measure);
     mqSm.addEventListener?.('change', measure);
-
+    mqMd.addEventListener?.('change', measure);
     return () => {
       window.removeEventListener('resize', onResize);
-      mqMd.removeEventListener?.('change', measure);
       mqSm.removeEventListener?.('change', measure);
+      mqMd.removeEventListener?.('change', measure);
     };
   }, []);
 
@@ -202,7 +187,7 @@ const ProjectsCarousel: React.FC<{ items: Project[] }> = ({ items }) => {
     return () => window.removeEventListener('keydown', onKey);
   }, [count]);
 
-  // touch swipe
+  /* ----- discrete swipe (no free-drag) ----- */
   const touch = React.useRef<{ x: number; t: number } | null>(null);
   const onTouchStart = (e: React.TouchEvent) => {
     touch.current = { x: e.touches[0].clientX, t: performance.now() };
@@ -211,46 +196,64 @@ const ProjectsCarousel: React.FC<{ items: Project[] }> = ({ items }) => {
     if (!touch.current) return;
     const dx = e.changedTouches[0].clientX - touch.current.x;
     const dt = performance.now() - touch.current.t;
-    if (Math.abs(dx) > 80 || (dt < 350 && Math.abs(dx) > 40)) go(dx > 0 ? -1 : 1);
+    const movedEnough = Math.abs(dx) > 80 || (dt < 300 && Math.abs(dx) > 40);
+    if (movedEnough) go(dx > 0 ? -1 : 1);
     touch.current = null;
   };
 
-  // Centering
+  // center active card
   const translate = `translateX(calc(50% - ${(cardW + gap) * index + cardW / 2}px))`;
 
   return (
     <div className="relative">
-      {/* arrows */}
+      {/* SIDE ARROWS — closer (-6 instead of -10) */}
       <button
         aria-label="Previous"
         onClick={() => go(-1)}
-        className="hidden md:flex absolute -left-3 top-1/2 -translate-y-1/2 z-10 h-12 w-12 items-center justify-center rounded-full bg-white/10 hover:bg-white/20 border border-white/10 shadow backdrop-blur-md"
+        className="hidden md:flex absolute -left-6 top-1/2 -translate-y-1/2 z-10 h-12 w-12 
+                   items-center justify-center rounded-full bg-white/10 hover:bg-white/20 
+                   border border-white/10 shadow backdrop-blur-md"
       >
         <ChevronLeft className="h-6 w-6" />
       </button>
       <button
         aria-label="Next"
         onClick={() => go(1)}
-        className="hidden md:flex absolute -right-3 top-1/2 -translate-y-1/2 z-10 h-12 w-12 items-center justify-center rounded-full bg-white/10 hover:bg-white/20 border border-white/10 shadow backdrop-blur-md"
+        className="hidden md:flex absolute -right-6 top-1/2 -translate-y-1/2 z-10 h-12 w-12 
+                   items-center justify-center rounded-full bg-white/10 hover:bg-white/20 
+                   border border-white/10 shadow backdrop-blur-md"
       >
         <ChevronRight className="h-6 w-6" />
       </button>
 
-      {/* track */}
-      <div className="overflow-visible" onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
+      {/* track container */}
+      <div
+        className="overflow-hidden sm:overflow-visible touch-pan-y select-none"
+        onTouchStart={onTouchStart}
+        onTouchEnd={onTouchEnd}
+      >
         <div
-          ref={trackRef}
           className="flex items-stretch will-change-transform transition-transform duration-500 [transition-timing-function:cubic-bezier(0.22,0.61,0.36,1)]"
           style={{ transform: translate, gap: `${gap}px` }}
         >
           {items.map((p, i) => {
             const isActive = i === index;
             const abs = Math.abs(i - index);
+            const isPhone = typeof window !== 'undefined' && window.innerWidth < 640;
 
-            const scale = isActive ? 'scale-100' : abs === 1 ? 'scale-[.95]' : 'scale-[.9]';
-            const opacity = isActive ? 'opacity-100' : abs === 1 ? 'opacity-65' : 'opacity-35';
-            const blur = isActive ? 'blur-0' : abs === 1 ? 'blur-[1px]' : 'blur-[2px]';
-            const fadeOverlay = abs === 0 ? '' : abs === 1 ? 'bg-black/20' : 'bg-black/35';
+            const scale = isPhone
+              ? isActive
+                ? 'scale-100'
+                : 'scale-[.98]'
+              : isActive
+              ? 'scale-100'
+              : abs === 1
+              ? 'scale-[.95]'
+              : 'scale-[.9]';
+
+            const opacity = isActive ? 'opacity-100' : isPhone ? 'opacity-80' : abs === 1 ? 'opacity-65' : 'opacity-35';
+            const blur = isPhone ? 'blur-0' : isActive ? 'blur-0' : abs === 1 ? 'blur-[1px]' : 'blur-[2px]';
+            const fadeOverlay = !isActive && !isPhone ? (abs === 1 ? 'bg-black/20' : 'bg-black/35') : '';
 
             return (
               <article
@@ -260,8 +263,8 @@ const ProjectsCarousel: React.FC<{ items: Project[] }> = ({ items }) => {
                 aria-label={p.title}
                 tabIndex={0}
                 className={[
-                  'carousel-card', // measure width on < sm
-                  'group shrink-0 w-[92vw] sm:w-[560px] md:w-[620px]',
+                  'carousel-card',
+                  'w-[92vw] sm:w-[560px] md:w-[620px] shrink-0',
                   'transition-all duration-500',
                   scale,
                   opacity,
@@ -272,13 +275,12 @@ const ProjectsCarousel: React.FC<{ items: Project[] }> = ({ items }) => {
                   'p-0',
                 ].join(' ')}
               >
-                {/* Poster image */}
                 {p.image ? (
                   <div className="relative">
                     <img
                       src={p.image}
                       alt={p.imageAlt || p.title}
-                      className="h-56 sm:h-64 w-full object-cover select-none"
+                      className="h-56 sm:h-64 w-full object-contain sm:object-cover select-none bg-black/20"
                       draggable={false}
                     />
                     <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/40 via-black/10 to-transparent" />
@@ -288,7 +290,6 @@ const ProjectsCarousel: React.FC<{ items: Project[] }> = ({ items }) => {
                   <div className={`h-56 sm:h-64 w-full bg-gradient-to-br ${p.gradient}`} />
                 )}
 
-                {/* content */}
                 <div className="p-5 sm:p-6">
                   <div className="min-w-0">
                     <h3 className="text-lg sm:text-xl font-semibold text-foreground">{p.title}</h3>
@@ -332,7 +333,7 @@ const ProjectsCarousel: React.FC<{ items: Project[] }> = ({ items }) => {
       </div>
 
       {/* dots */}
-      <div className="mt-8 flex items-center justify-center gap-2">
+      <div className="mt-6 md:mt-8 flex items-center justify-center gap-2">
         {items.map((_, i) => {
           const active = i === index;
           return (
@@ -347,6 +348,24 @@ const ProjectsCarousel: React.FC<{ items: Project[] }> = ({ items }) => {
             />
           );
         })}
+      </div>
+
+      {/* bottom mobile arrows — gap-2 (closer) */}
+      <div className="mt-3 flex items-center justify-center gap-2 sm:hidden">
+        <button
+          aria-label="Prev"
+          onClick={() => go(-1)}
+          className="h-9 w-9 rounded-full border border-white/10 bg-white/10 hover:bg-white/20 flex items-center justify-center"
+        >
+          <ChevronLeft className="h-6 w-6" />
+        </button>
+        <button
+          aria-label="Next"
+          onClick={() => go(1)}
+          className="h-9 w-9 rounded-full border border-white/10 bg-white/10 hover:bg-white/20 flex items-center justify-center"
+        >
+          <ChevronRight className="h-6 w-6" />
+        </button>
       </div>
     </div>
   );

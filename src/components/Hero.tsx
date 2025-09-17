@@ -24,8 +24,8 @@ const Hero = () => {
             Hi, I'm <span className="hero-accent">Vatsa Arvind Kala</span>
           </h1>
 
-          {/* Hero Subtext */}
-          <div className="text-xl sm:text-2xl lg:text-3xl mb-8 font-light text-gray-600 dark:text-gray-300">
+          {/* Sub-headline */}
+          <div className="text-2xl sm:text-3xl mb-8 font-light text-gray-600 dark:text-gray-300">
             <span className="inline-flex items-center gap-2">Data Engineering</span>
             <span className="mx-4 text-gray-400 dark:text-gray-500">|</span>
             <span className="hero-accent">Machine Learning & AI</span>
@@ -33,18 +33,17 @@ const Hero = () => {
             <span>Product Strategy</span>
           </div>
 
-          {/* Hero Description */}
-          <p className="text-lg mb-12 max-w-2xl mx-auto leading-relaxed text-gray-600 dark:text-gray-300">
+          {/* Description */}
+          <p className="text-base sm:text-lg mb-12 max-w-2xl mx-auto leading-relaxed text-gray-600 dark:text-gray-300">
             Curious about how data shapes the world, I build systems and models that turn
             information into action and ideas into reality.
           </p>
 
-          {/* Hero Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            {/* Download Resume */}
+          {/* Buttons — side by side on all screens */}
+          <div className="flex flex-row flex-wrap justify-center gap-4">
             <Button
               asChild
-              className="group bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-medium px-6 py-3 rounded-lg transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl border-0 w-64 max-w-[30%]"
+              className="group w-auto sm:w-64 px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-medium rounded-lg transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl border-0"
             >
               <a
                 href={RESUME_URL}
@@ -53,18 +52,17 @@ const Hero = () => {
                 download="Vatsa_Arvind_Kala_Resume.pdf"
                 aria-label="Download resume (opens in new tab)"
               >
-                <Download className="mr-2 h-5 w-5 transition-transform group-hover:scale-110" />
+                <Download className="mr-2 h-5 w-5 transition-transform group-hover:scale-110 inline-block" />
                 Download Resume
               </a>
             </Button>
 
-            {/* Contact Button */}
             <Button
               variant="outline"
-              className="border-2 border-gray-400 dark:border-gray-600 bg-white/20 dark:bg-black/20 text-black dark:text-white hover:text-black-600 font-medium px-6 py-3 rounded-lg transition-all duration-300 hover:scale-105 hover:bg-white/30 dark:hover:bg-black/30 hover:border-gray-400 dark:hover:border-gray-500 backdrop-blur-sm w-64 max-w-[30%]"
+              className="w-auto sm:w-64 px-6 py-3 border-2 border-gray-400 dark:border-gray-600 bg-white/20 dark:bg-black/20 text-black dark:text-white hover:text-black font-medium rounded-lg transition-all duration-300 hover:scale-105 hover:bg-white/30 dark:hover:bg-black/30 hover:border-gray-400 dark:hover:border-gray-500 backdrop-blur-sm"
               onClick={scrollToContact}
             >
-              <Mail className="mr-2 h-5 w-5" />
+              <Mail className="mr-2 h-5 w-5 inline-block" />
               Contact Me
             </Button>
           </div>
@@ -100,7 +98,7 @@ const Hero = () => {
         </div>
       </div>
 
-      {/* Animated Mouse Scroll Button */}
+      {/* Scroll Down Mouse Icon */}
       <button
         className="absolute left-1/2 -translate-x-1/2 bottom-4 z-30 flex flex-col items-center group focus:outline-none hover:scale-110 transition-transform duration-200"
         onClick={scrollToNextSection}
@@ -113,7 +111,7 @@ const Hero = () => {
         </span>
       </button>
 
-      {/* Custom animation styles */}
+      {/* Animation Styles */}
       <style>
         {`
           @keyframes bounce-slow {
