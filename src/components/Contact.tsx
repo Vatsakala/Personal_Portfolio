@@ -6,27 +6,21 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
 import { useIntersectionObserver } from '@/hooks/use-intersection-observer';
-
-// ✅ Formspree
 import { useForm, ValidationError } from '@formspree/react';
 
 const Contact = () => {
   const { targetRef, isIntersecting } = useIntersectionObserver();
-
-  // Formspree hook uses your form ID from the screenshot
   const [state, handleSubmit] = useForm('mandgwgp');
 
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     message: '',
-    // honeypot (leave empty)
     _gotcha: ''
   });
 
   const { toast } = useToast();
 
-  // When Formspree reports success, toast + reset inputs
   useEffect(() => {
     if (state.succeeded) {
       toast({
@@ -39,9 +33,7 @@ const Contact = () => {
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
-  };
+  ) => setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
 
   const contactInfo = [
     {
@@ -84,12 +76,14 @@ const Contact = () => {
       id="contact"
       ref={targetRef}
       className={`
-        scroll-mt-15 py-20 px-4 sm:px-6 lg:px-8
+        scroll-mt-24 py-20 px-4 sm:px-6 lg:px-8
         ${isIntersecting ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'}
         transition-opacity transition-transform duration-700
+        overflow-x-clip
       `}
     >
       <div className="max-w-6xl mx-auto">
+        {/* Section header */}
         <div
           className={`
             text-center mb-16
@@ -103,29 +97,29 @@ const Contact = () => {
           </p>
         </div>
 
-        {/* Wider form (3) + sidebar (2) on lg+ */}
-        <div className="grid lg:grid-cols-5 gap-12">
+        {/* Grid wrapper */}
+        <div className="grid lg:grid-cols-5 gap-8 sm:gap-12 max-w-3xl mx-auto lg:max-w-none">
           {/* Contact Form */}
           <div
             className={`
-              glass-card p-8 lg:col-span-3
+              glass-card p-6 sm:p-8 w-full
+              max-w-md sm:max-w-lg mx-auto
+              lg:max-w-none lg:mx-0 lg:col-span-3
               ${isIntersecting ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8'}
               transition-opacity transition-transform duration-700 delay-300
+              overflow-hidden
             `}
           >
             <h3 className="text-2xl font-semibold text-foreground mb-6">Send me a message</h3>
 
-            {/* ✅ Formspree: onSubmit={handleSubmit} */}
             <form onSubmit={handleSubmit} className="space-y-6">
-              {/* Hidden extras */}
               <input type="hidden" name="subject" value="New message from portfolio contact form" />
-              {/* Honeypot anti-spam field (kept hidden) */}
               <input
                 type="text"
                 name="_gotcha"
                 value={formData._gotcha}
                 onChange={handleInputChange}
-                className="hidden"
+                className="sr-only"
                 tabIndex={-1}
                 autoComplete="off"
               />
@@ -136,12 +130,13 @@ const Contact = () => {
                 </label>
                 <Input
                   id="name"
-                  name="name"                // ✅ must have name
+                  name="name"
                   type="text"
                   value={formData.name}
                   onChange={handleInputChange}
                   required
                   placeholder="Your full name"
+                  className="w-full max-w-full"
                 />
               </div>
 
@@ -151,14 +146,14 @@ const Contact = () => {
                 </label>
                 <Input
                   id="email"
-                  name="email"              // ✅ must have name
+                  name="email"
                   type="email"
                   value={formData.email}
                   onChange={handleInputChange}
                   required
                   placeholder="your.email@example.com"
+                  className="w-full max-w-full"
                 />
-                {/* ✅ Field-level errors from Formspree */}
                 <ValidationError prefix="Email" field="email" errors={state.errors} />
               </div>
 
@@ -168,26 +163,29 @@ const Contact = () => {
                 </label>
                 <Textarea
                   id="message"
-                  name="message"            // ✅ must have name
+                  name="message"
                   value={formData.message}
                   onChange={handleInputChange}
                   required
-                  className="min-h-[120px]"
                   placeholder="Tell me about your project, opportunity, or just say hello!"
+                  className="
+                    min-h-[140px] w-full max-w-full
+                    resize-none sm:resize-y
+                    overflow-auto
+                    appearance-none
+                    [scrollbar-width:none]
+                    [&::-webkit-scrollbar]:hidden
+                    [&::-webkit-resizer]:hidden
+                  "
                 />
                 <ValidationError prefix="Message" field="message" errors={state.errors} />
               </div>
 
-              <Button
-                type="submit"
-                className="w-full group"
-                disabled={state.submitting}   // ✅ prevent double submits
-              >
+              <Button type="submit" className="w-full group" disabled={state.submitting}>
                 <Send className="mr-2 h-4 w-4 group-hover:scale-110 transition-transform" />
                 {state.submitting ? 'Sending…' : 'Send Message'}
               </Button>
 
-              {/* Global (non-field) errors */}
               <ValidationError errors={state.errors} />
             </form>
           </div>
@@ -195,12 +193,15 @@ const Contact = () => {
           {/* Contact Info & Social */}
           <div
             className={`
-              space-y-8 lg:col-span-2
+              space-y-8 w-full
+              max-w-md sm:max-w-lg mx-auto
+              lg:max-w-none lg:mx-0 lg:col-span-2
               ${isIntersecting ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-8'}
               transition-opacity transition-transform duration-700 delay-400
+              overflow-hidden
             `}
           >
-            <div className="glass-card p-10">
+            <div className="glass-card p-8">
               <h3 className="text-2xl font-semibold text-foreground mb-6">Get in touch</h3>
               <div className="space-y-4">
                 {contactInfo.map((info, index) => (
@@ -225,26 +226,36 @@ const Contact = () => {
               </div>
             </div>
 
-            {/* Social Links — one row, equal pill sizes */}
             <div className="glass-card p-8">
               <h3 className="text-2xl font-semibold text-foreground mb-6">Follow & Connect</h3>
-              <div className="grid grid-cols-3 gap-4">
-                {socialLinks.map((social, index) => (
-                  <a
-                    key={index}
-                    href={social.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={`flex items-center justify-center gap-3 p-4 rounded-lg hover:bg-card/50
-                      ${isIntersecting ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}
-                      transition-opacity transition-transform duration-300
-                      ${index === 0 ? 'delay-600' : index === 1 ? 'delay-700' : 'delay-800'}
-                      min-w-[120px]`}   // equal pill width
-                  >
-                    <social.icon className={`h-6 w-6 ${social.color}`} />
-                    <span className="text-sm text-muted-foreground">{social.label}</span>
-                  </a>
-                ))}
+              <div className="flex flex-wrap justify-center gap-4">
+                {socialLinks.map((social, index) => {
+                  const isLinkedinOrGithub =
+                    social.label === 'LinkedIn' || social.label === 'GitHub';
+
+                  return (
+                    <a
+                      key={index}
+                      href={social.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={`
+                        flex items-center justify-center gap-2 px-4 py-2 rounded-lg hover:bg-card/50
+                        ${isIntersecting ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}
+                        transition-all duration-300
+                        ${index === 0 ? 'delay-600' : index === 1 ? 'delay-700' : 'delay-800'}
+                        ${
+                          isLinkedinOrGithub
+                            ? 'max-sm:active:scale-110 max-sm:hover:animate-pulse'
+                            : ''
+                        }
+                      `}
+                    >
+                      <social.icon className={`h-5 w-5 ${social.color}`} />
+                      <span className="text-sm text-muted-foreground">{social.label}</span>
+                    </a>
+                  );
+                })}
               </div>
             </div>
           </div>
