@@ -35,7 +35,7 @@ It showcases projects, skills, and work experience with a clean and modern UI.
 ### Installation
 ```bash
 # clone the repository
-git clone https://github.com/vatsakala/Personal_Portfolio.git
+git clone https://github.com/Vatsakala/Personal_Portfolio.git
 cd Personal_Portfolio
 
 # install dependencies
