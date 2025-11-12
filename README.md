@@ -35,8 +35,8 @@ It showcases projects, skills, and work experience with a clean and modern UI.
 ### Installation
 ```bash
 # clone the repository
-git clone https://github.com/your-username/vatsa-kala-folio.git
-cd vatsa-kala-folio
+git clone https://github.com/Vatsakala/Personal_Portfolio.git
+cd Personal_Portfolio
 
 # install dependencies
 npm install
