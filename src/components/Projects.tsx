@@ -30,6 +30,30 @@ const Projects = () => {
 
   const projects: Project[] = [
     {
+      title: 'RegDoc: AI-Powered Regulatory Document Classifier',
+      description:
+        'Streamlit-based system that classifies PDFs/images into Public, Confidential, Highly Sensitive, or Unsafe using OCR heuristics + dual-LLM validation, HITL overrides, and citation-backed reasoning.',
+      icon: Gamepad2,
+      tech: ['Streamlit', 'Databricks', 'OCR', 'Python', 'pdfplumber', 'pytesseract', 'LLaMA 3.1'],
+      featured: true,
+      gradient: 'from-orange-500 to-red-600',
+      image: '/proj/Regdoc.png',
+      imageAlt: 'RegDoc',
+      codeUrl: 'https://github.com/Vatsakala/Regdoc-classifier',
+    },
+    {
+      title: 'Mai Shan Yun Analytics Dashboard',
+      description:
+        'Restaurant BI platform with real-time KPIs, demand forecasting, proactive reorder alerts, and Claude-generated insights for data-driven inventory decisions.',
+      icon: ShoppingCart,
+      tech: ['Streamlit', 'NumPy', 'Requests', 'SQL', 'Streamlit', 'Pandas', 'Business Intelligence'],
+      featured: true,
+      gradient: 'from-primary to-blue-600',
+      image: '/proj/Maishunyun.png',
+      imageAlt: 'Maishunyun analytics',
+      codeUrl: 'https://github.com/Vatsakala/Mai_Shun_Yun_Dashboard',
+    },
+    {
       title: 'Dorsal Vein Biometric Authentication',
       description:
         'Developed an explainable AI system for biometric authentication using 11,000+ dorsal palm vein images. Achieved 95.3% validation accuracy and published results in Springer.',
@@ -38,7 +62,7 @@ const Projects = () => {
       featured: true,
       gradient: 'from-primary to-blue-600',
       image: '/proj/Dorsal.png',
-      imageAlt: 'POS dashboard preview',
+      imageAlt: 'Dorsal veins',
       codeUrl: 'https://github.com/Vatsakala/Localization-of-Palm-Veins',
       paperUrl: 'https://link.springer.com/chapter/10.1007/978-981-97-6352-8_32',
     },
@@ -55,6 +79,43 @@ const Projects = () => {
       paperUrl: 'https://link.springer.com/chapter/10.1007/978-981-97-6794-6_52',
     },
     {
+      title: 'AI-Powered 5G Resource Allocation',
+      description:
+        'Designed an AI-based resource allocation algorithm for 5G networks. Achieved a 15% reduction in resource requirements without degrading transmission quality.',
+      icon: Gamepad2,
+      tech: ['Python', 'Machine Learning', 'Network Simulation', 'Optimization Algorithms'],
+      featured: true,
+      gradient: 'from-orange-500 to-red-600',
+      image: '/proj/5G.png',
+      imageAlt: 'Game analytics charts',
+      codeUrl: 'https://github.com/youruser/game-analytics',
+      paperUrl: 'https://ieeexplore.ieee.org/document/10593937',
+    },
+    {
+      title: 'Neighborhood Intelligence MCP Server',
+      description:
+        'Model Context Protocol server that fuses 10+ APIs (maps, crime, housing, air quality) and Claude-powered synthesis to deliver side-by-side neighborhood analyses.',
+      icon: ShoppingCart,
+      tech: ['Python', 'MCP','OpenRouter', 'Google Maps API', 'REST APIs', 'OpenAI MCP SDK'],
+      featured: true,
+      gradient: 'from-primary to-blue-600',
+      image: '/proj/MCP.png',
+      imageAlt: 'MCP',
+      codeUrl: 'https://github.com/Vatsakala/Custom_MCP_Neighbourhood',
+    },
+    {
+      title: 'Case Closed Agent',
+      description:
+        'Production-ready Flask server scaffolding for head-to-head game agents with Judge Engine compatibility, local tester, and Dockerization for CPU-only deployments.',
+      icon: ShoppingCart,
+      tech: ['Microservice Architecture', 'REST API', 'Python', 'Docker', 'Algorithmic Backend'],
+      featured: true,
+      gradient: 'from-primary to-blue-600',
+      image: '/proj/Caseclosed.png',
+      imageAlt: 'MCP',
+      codeUrl: 'https://github.com/Vatsakala/CaseClosed',
+    },
+    {
       title: 'Emotion Detection Model',
       description:
         'Built a CNN-based facial emotion recognition system using the FER-2013 with 30,000+ images. Applied augmentation techniques, achieved ~99% accuracy for multiple emotions.',
@@ -66,19 +127,7 @@ const Projects = () => {
       imageAlt: 'Community feed preview',
       codeUrl: 'https://github.com/Vatsakala/Emotion-detection-Model',
     },
-    {
-      title: 'AI-Powered 5G Resource Allocation',
-      description:
-        'Designed an AI-based resource allocation algorithm for 5G networks. Achieved a 15% reduction in resource requirements without degrading transmission quality.',
-      icon: Gamepad2,
-      tech: ['Python', 'Machine Learning', 'Network Simulation', 'Optimization Algorithms'],
-      featured: false,
-      gradient: 'from-orange-500 to-red-600',
-      image: '/proj/5G.png',
-      imageAlt: 'Game analytics charts',
-      codeUrl: 'https://github.com/youruser/game-analytics',
-      paperUrl: 'https://ieeexplore.ieee.org/document/10593937',
-    },
+    
   ];
 
   const ordered = [...projects.filter(p => p.featured), ...projects.filter(p => !p.featured)];
