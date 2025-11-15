@@ -58,7 +58,7 @@ const Experience = () => {
       company: 'E-infochips',
       role: 'Research Intern',
       location: 'Ahmedabad, India',
-      duration: 'Sep 2022 - May 2023',
+      duration: 'May 2023- June 2023',
       highlights: [
         'Researched 10+ smartphone systems, identifying hardware optimizations that improved design efficiency by 15%.',
         'Led a team of 4 engineers to implement predictive research, driving enhancements in semiconductor design.',
