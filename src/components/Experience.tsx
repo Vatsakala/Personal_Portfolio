@@ -16,6 +16,17 @@ const Experience = () => {
 
   const experiences: ExperienceItem[] = [
     {
+      company: 'Texas A&M University',
+      role: 'Graduate Teaching Assistant',
+      location: 'College Station, TX',
+      duration: 'Jan 2026 - May 2025',
+      highlights: [
+        'Teaching Assistant for ISTM 657, SCMT 390: Blockchain and AI for Business and SCMT 469: Transportation Management Systems',
+      ],
+      logoSrc: '/logos/TAMU.svg',
+      logoAlt: 'Texas A&M University',
+    },
+    {
       company: 'Trading Technologies',
       role: 'Data Engineering Intern',
       location: 'New York, NY',
