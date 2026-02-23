@@ -19,7 +19,7 @@ const Experience = () => {
       company: 'Texas A&M University',
       role: 'Graduate Teaching Assistant',
       location: 'College Station, TX',
-      duration: 'Jan 2026 - May 2025',
+      duration: 'Jan 2026 - May 2026',
       highlights: [
         'Teaching Assistant for ISTM 657, SCMT 390: Blockchain and AI for Business and SCMT 469: Transportation Management Systems',
       ],
