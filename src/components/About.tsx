@@ -36,7 +36,7 @@ const About = () => {
             isIntersecting ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-8 scale-95'
           }`}
         >
-          <h1 className="text-4xl font-bold mb-4 hero-accent">About Me</h1>
+          <h2 className="text-4xl font-bold mb-4 hero-accent">About Me</h2>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
             Driven by curiosity and passion for innovation
           </p>

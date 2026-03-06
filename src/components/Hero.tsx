@@ -20,12 +20,21 @@ const Hero = () => {
       <div className="relative z-10 text-center max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="fade-in visible">
           {/* Hero Heading */}
-          <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold mb-6 leading-tight text-black-600 dark:text-white">
-            Hi, I'm <span className="hero-accent">Vatsa Arvind Kala</span>
+          <h1 className="text-[2.55rem] sm:text-5xl lg:text-6xl xl:text-7xl font-bold mb-6 leading-tight text-black-600 dark:text-white">
+            <span className="md:hidden">
+              <span className="whitespace-nowrap">
+                Hi, I&apos;m <span className="hero-accent">Vatsa</span>
+              </span>
+              <br />
+              <span className="hero-accent">Arvind Kala</span>
+            </span>
+            <span className="hidden md:inline md:whitespace-nowrap">
+              Hi, I&apos;m <span className="hero-accent">Vatsa Arvind Kala</span>
+            </span>
           </h1>
 
           {/* Sub-headline */}
-          <div className="text-2xl sm:text-3xl mb-8 font-light text-gray-600 dark:text-gray-300">
+          <div className="text-lg sm:text-xl md:text-2xl lg:text-[1.75rem] lg:whitespace-nowrap mb-8 font-light text-gray-600 dark:text-gray-300">
             <span className="inline-flex items-center gap-2">Data Engineering</span>
             <span className="mx-4 text-gray-400 dark:text-gray-500">|</span>
             <span className="hero-accent">Machine Learning & AI</span>
@@ -128,5 +137,3 @@ const Hero = () => {
 };
 
 export default Hero;
-
-

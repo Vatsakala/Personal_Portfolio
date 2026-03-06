@@ -8,8 +8,18 @@ import Experience from '@/components/Experience';
 import Education from '@/components/Education';
 import Contact from '@/components/Contact';
 import Footer from '@/components/Footer';
+import { usePageMeta } from '@/hooks/use-page-meta';
 
 const Index = () => {
+  usePageMeta({
+    title: 'Vatsa Arvind Kala - Portfolio',
+    description:
+      'Data Engineering | Machine Learning & AI | Product Strategy - Portfolio showcasing projects in machine learning, data science, and web development.',
+    noIndex: false,
+    type: 'website',
+    image: '/Favicon.png',
+  });
+
   return (
     <div className="relative min-h-screen">
       {/* Continuous Gradient & Animated Background */}
@@ -40,7 +50,7 @@ const Index = () => {
       </div>
 
       {/* Page Content */}
-      <div className="relative z-10">
+      <main className="relative z-10">
         <Navigation />
         <Hero />
         <About />
@@ -50,7 +60,7 @@ const Index = () => {
         <Education />
         <Contact />
         <Footer />
-      </div>
+      </main>
     </div>
   );
 };

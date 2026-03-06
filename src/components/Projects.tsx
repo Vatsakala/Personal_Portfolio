@@ -329,6 +329,8 @@ const ProjectsCarousel: React.FC<{ items: Project[] }> = ({ items }) => {
                     <img
                       src={p.image}
                       alt={p.imageAlt || p.title}
+                      loading="lazy"
+                      decoding="async"
                       className="h-56 sm:h-64 w-full object-contain sm:object-cover select-none bg-black/20"
                       draggable={false}
                     />

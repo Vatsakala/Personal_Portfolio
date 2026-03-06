@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -117,7 +117,7 @@
 
 @layer base {
   * { @apply border-border; }
-  body { @apply bg-background text-foreground; }
+  body { @apply bg-background text-foreground font-sans; }
 
   /* your selection/cursor prefs */
   h1, h2, h3, h4, h5, h6, p, span, div {
@@ -224,6 +224,8 @@
   transition: none !important;
   animation: none !important;
 }
+
+
 
 
 

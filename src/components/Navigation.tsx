@@ -48,7 +48,9 @@ const Navigation = () => {
     } else {
       htmlElement.classList.remove('dark');
     }
-    
+    htmlElement.setAttribute('data-theme', newIsDark ? 'dark' : 'light');
+    localStorage.setItem('theme', newIsDark ? 'dark' : 'light');
+
     setIsDark(newIsDark);
     
     setTimeout(() => {

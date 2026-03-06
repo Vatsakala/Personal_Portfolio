@@ -1,8 +1,17 @@
 import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
+import { usePageMeta } from "@/hooks/use-page-meta";
 
 const NotFound = () => {
   const location = useLocation();
+
+  usePageMeta({
+    title: "404 - Page Not Found | Vatsa Arvind Kala",
+    description: "The requested page could not be found.",
+    noIndex: true,
+    type: "website",
+    image: "/Favicon.png",
+  });
 
   useEffect(() => {
     console.error(

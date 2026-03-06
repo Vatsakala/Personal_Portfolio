@@ -1,42 +1,125 @@
 <!DOCTYPE html>
-<html lang="en" class="dark overflow-x-hidden overscroll-x-none">
+<html lang="en" class="overflow-x-hidden overscroll-x-none">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Vatsa Arvind Kala - Portfolio</title>
     <meta
       name="description"
-      content="Data Engineerinfg | Machine Learning & AI | Product Strategy - Portfolio showcasing projects in machine learning, data science, and web development"
+      content="Data Engineering | Machine Learning & AI | Product Strategy - Portfolio showcasing projects in machine learning, data science, and web development."
     />
     <meta name="author" content="Vatsa Arvind Kala" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
 
-    <!-- ✅ Browser Tab Icon -->
     <link rel="icon" type="image/x-icon" href="/favicon-1.ico" />
+    <link rel="apple-touch-icon" href="/Favicon.png" />
 
-    <!-- ✅ Open Graph (social sharing) -->
     <meta property="og:title" content="Vatsa Arvind Kala - Portfolio" />
     <meta
       property="og:description"
-      content="MIS Student | Data + AI Enthusiast | Full Stack Explorer - Portfolio showcasing projects in machine learning, data science, and web development"
+      content="Data Engineering | Machine Learning & AI | Product Strategy - Portfolio showcasing projects in machine learning, data science, and web development."
     />
     <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Vatsa Arvind Kala Portfolio" />
+    <meta property="og:url" content="https://vatsa-kala-folio.vercel.app/" />
     <meta property="og:image" content="/Favicon.png" />
 
-    <!-- ✅ Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="@vatsa_kala" />
+    <meta name="twitter:title" content="Vatsa Arvind Kala - Portfolio" />
+    <meta
+      name="twitter:description"
+      content="Data Engineering | Machine Learning & AI | Product Strategy - Portfolio showcasing projects in machine learning, data science, and web development."
+    />
     <meta name="twitter:image" content="/Favicon.png" />
+    <link rel="canonical" href="https://vatsa-kala-folio.vercel.app/" />
 
-    <!-- 🔒 Extra safety against sideways scroll (incl. iOS) -->
+    <script>
+      (function () {
+        try {
+          var savedTheme = localStorage.getItem('theme');
+          var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = savedTheme ? savedTheme === 'dark' : prefersDark;
+          var root = document.documentElement;
+          root.classList.toggle('dark', isDark);
+          root.setAttribute('data-theme', isDark ? 'dark' : 'light');
+        } catch (_err) {
+          document.documentElement.classList.add('dark');
+          document.documentElement.setAttribute('data-theme', 'dark');
+        }
+      })();
+    </script>
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "Person",
+            "name": "Vatsa Arvind Kala",
+            "url": "https://vatsa-kala-folio.vercel.app/",
+            "image": "https://vatsa-kala-folio.vercel.app/profile-photo.jpg",
+            "jobTitle": "Data Engineer",
+            "sameAs": [
+              "https://linkedin.com/in/vatsa-kala",
+              "https://github.com/vatsakala",
+              "https://x.com/KalaVatsa"
+            ]
+          },
+          {
+            "@type": "WebSite",
+            "name": "Vatsa Arvind Kala Portfolio",
+            "url": "https://vatsa-kala-folio.vercel.app/"
+          }
+        ]
+      }
+    </script>
+
     <style>
       html, body, #root { max-width: 100%; overflow-x: hidden; }
-      body { overscroll-behavior-x: none; touch-action: pan-y; }
+      body {
+        margin: 0;
+        overscroll-behavior-x: none;
+        touch-action: pan-y;
+        background: #f8fafc;
+      }
+      html.dark body { background: #020617; }
       img, iframe { max-width: 100%; }
+
+      .fallback-loader-wrap {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #f8fafc;
+      }
+      html.dark .fallback-loader-wrap { background: #020617; }
+
+      .fallback-loader {
+        width: 44px;
+        height: 44px;
+        border-radius: 999px;
+        border: 3px solid rgba(37, 99, 235, 0.22);
+        border-top-color: #2563eb;
+        animation: spin 0.8s linear infinite;
+      }
+      html.dark .fallback-loader {
+        border: 3px solid rgba(56, 189, 248, 0.25);
+        border-top-color: #38bdf8;
+      }
+
+      @keyframes spin {
+        to { transform: rotate(360deg); }
+      }
     </style>
   </head>
 
   <body class="overflow-x-hidden overscroll-x-none">
-    <div id="root"></div>
+    <div id="root">
+      <main class="fallback-loader-wrap" aria-label="Loading">
+        <div class="fallback-loader" aria-hidden="true"></div>
+      </main>
+    </div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
