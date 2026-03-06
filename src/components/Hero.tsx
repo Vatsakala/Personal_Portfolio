@@ -43,7 +43,7 @@ const Hero = () => {
           <div className="flex flex-row flex-wrap justify-center gap-4">
             <Button
               asChild
-              className="group w-auto sm:w-64 px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-medium rounded-lg transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl border-0"
+              className="group w-auto sm:w-64 px-6 py-3 bg-gradient-to-r from-primary to-accent hover:opacity-95 text-white font-medium rounded-lg transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl border-0"
             >
               <a
                 href={RESUME_URL}
@@ -59,7 +59,7 @@ const Hero = () => {
 
             <Button
               variant="outline"
-              className="w-auto sm:w-64 px-6 py-3 border-2 border-gray-400 dark:border-gray-600 bg-white/20 dark:bg-black/20 text-black dark:text-white hover:text-black font-medium rounded-lg transition-all duration-300 hover:scale-105 hover:bg-white/30 dark:hover:bg-black/30 hover:border-gray-400 dark:hover:border-gray-500 backdrop-blur-sm"
+              className="w-auto sm:w-64 px-6 py-3 border-2 border-gray-400 dark:border-gray-600 bg-white/20 dark:bg-black/20 text-black dark:text-white hover:text-foreground font-medium rounded-lg transition-all duration-300 hover:scale-105 hover:bg-white/30 dark:hover:bg-black/30 hover:border-gray-400 dark:hover:border-gray-500 backdrop-blur-sm"
               onClick={scrollToContact}
             >
               <Mail className="mr-2 h-5 w-5 inline-block" />
@@ -77,7 +77,7 @@ const Hero = () => {
             className="hover:scale-110 transition-transform"
             title="LinkedIn"
           >
-            <Linkedin className="w-6 h-6 text-gray-700 dark:text-gray-300 hover:text-blue-400" />
+            <Linkedin className="w-6 h-6 text-gray-700 dark:text-gray-300 hover:text-primary" />
           </a>
           <a
             href="https://github.com/vatsakala"
@@ -86,14 +86,14 @@ const Hero = () => {
             className="hover:scale-110 transition-transform"
             title="GitHub"
           >
-            <Github className="w-6 h-6 text-gray-700 dark:text-gray-300 hover:text-black" />
+            <Github className="w-6 h-6 text-gray-700 dark:text-gray-300 hover:text-foreground" />
           </a>
           <a
             href="mailto:vatsakala.contact@gmail.com"
             className="hover:scale-110 transition-transform"
             title="Gmail"
           >
-            <Mail className="w-6 h-6 text-gray-700 dark:text-gray-300 hover:text-red-400" />
+            <Mail className="w-6 h-6 text-gray-700 dark:text-gray-300 hover:text-accent" />
           </a>
         </div>
       </div>
@@ -128,3 +128,5 @@ const Hero = () => {
 };
 
 export default Hero;
+
+

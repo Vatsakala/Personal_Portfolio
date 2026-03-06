@@ -13,12 +13,12 @@ const About = () => {
     { img: '/Certificate.svg',alt: 'Certifications', label: 'AWS, Azure, Scrum',                  value: '15+ Certifications',  tint: '#FF9900' }, // AWS orange
   ];
 
-  // Theme-friendly gradients (cool blues/violets) – one per card, same order as stats
+  // Theme-friendly gradients (developer blue scale) – one per card, same order as stats
   const themeGradients = [
-    'from-[hsl(var(--primary))] to-[#22d3ee]',  // blue -> cyan
-    'from-[#6366f1] to-[hsl(var(--accent))]',   // indigo -> violet
-    'from-[#0ea5e9] to-[#7c3aed]',              // sky -> violet
-    'from-[#14b8a6] to-[hsl(var(--accent))]',   // teal -> violet
+    'from-[hsl(var(--primary))] to-[#38bdf8]',  // blue -> sky
+    'from-[#2563eb] to-[hsl(var(--accent))]',   // blue -> cyan
+    'from-[#0284c7] to-[#0ea5e9]',              // deep sky -> sky
+    'from-[#0891b2] to-[hsl(var(--accent))]',   // cyan -> accent
   ];
 
   return (
@@ -135,3 +135,5 @@ const About = () => {
 };
 
 export default About;
+
+

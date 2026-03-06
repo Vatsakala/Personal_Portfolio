@@ -36,7 +36,7 @@ const Projects = () => {
       icon: Gamepad2,
       tech: ['Streamlit', 'Databricks', 'OCR', 'Python', 'pdfplumber', 'pytesseract', 'LLaMA 3.1'],
       featured: true,
-      gradient: 'from-orange-500 to-red-600',
+      gradient: 'from-slate-600 to-blue-700',
       image: '/proj/Regdoc.png',
       imageAlt: 'RegDoc',
       codeUrl: 'https://github.com/Vatsakala/Regdoc-classifier',
@@ -73,7 +73,7 @@ const Projects = () => {
       icon: Activity,
       tech: ['Python', 'TensorFlow', 'Pandas', 'Scikit-learn'],
       featured: true,
-      gradient: 'from-accent to-purple-600',
+      gradient: 'from-accent to-blue-700',
       image: '/proj/Terrainfier.jpg',
       imageAlt: 'Health analytics UI',
       paperUrl: 'https://link.springer.com/chapter/10.1007/978-981-97-6794-6_52',
@@ -85,7 +85,7 @@ const Projects = () => {
       icon: Gamepad2,
       tech: ['Python', 'Machine Learning', 'Network Simulation', 'Optimization Algorithms'],
       featured: true,
-      gradient: 'from-orange-500 to-red-600',
+      gradient: 'from-slate-600 to-blue-700',
       image: '/proj/5G.png',
       imageAlt: 'Game analytics charts',
       codeUrl: 'https://github.com/youruser/game-analytics',
@@ -122,7 +122,7 @@ const Projects = () => {
       icon: Users,
       tech: ['Python', 'OpenCV', 'Tensforflow', 'Seaborn', 'Keras'],
       featured: false,
-      gradient: 'from-green-500 to-teal-600',
+      gradient: 'from-cyan-600 to-blue-700',
       image: '/proj/Emotion.png',
       imageAlt: 'Community feed preview',
       codeUrl: 'https://github.com/Vatsakala/Emotion-detection-Model',
@@ -419,3 +419,4 @@ const ProjectsCarousel: React.FC<{ items: Project[] }> = ({ items }) => {
     </div>
   );
 };
+
