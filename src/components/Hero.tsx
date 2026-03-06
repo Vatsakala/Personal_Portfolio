@@ -34,12 +34,19 @@ const Hero = () => {
           </h1>
 
           {/* Sub-headline */}
-          <div className="text-lg sm:text-xl md:text-2xl lg:text-[1.75rem] lg:whitespace-nowrap mb-8 font-light text-gray-600 dark:text-gray-300">
-            <span className="inline-flex items-center gap-2">Data Engineering</span>
-            <span className="mx-4 text-gray-400 dark:text-gray-500">|</span>
-            <span className="hero-accent">Machine Learning & AI</span>
-            <span className="mx-4 text-gray-400 dark:text-gray-500">|</span>
-            <span>Product Strategy</span>
+          <div className="text-lg sm:text-xl md:text-2xl lg:text-[1.75rem] md:whitespace-nowrap mb-8 font-light text-gray-600 dark:text-gray-300">
+            <div className="md:hidden space-y-1.5">
+              <div>Data Engineering</div>
+              <div className="hero-accent">Machine Learning &amp; AI</div>
+              <div>Product Strategy</div>
+            </div>
+            <div className="hidden md:block">
+              <span className="inline-flex items-center gap-2">Data Engineering</span>
+              <span className="mx-4 text-gray-400 dark:text-gray-500">|</span>
+              <span className="hero-accent">Machine Learning &amp; AI</span>
+              <span className="mx-4 text-gray-400 dark:text-gray-500">|</span>
+              <span>Product Strategy</span>
+            </div>
           </div>
 
           {/* Description */}
@@ -137,3 +144,5 @@ const Hero = () => {
 };
 
 export default Hero;
+
+
