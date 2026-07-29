@@ -1,3 +1,4 @@
+import { useEffect, useMemo, useState } from 'react';
 import { Download, Eye, Mail, Github, Linkedin } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
@@ -5,14 +6,29 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogDescription,
   DialogTrigger,
 } from '@/components/ui/dialog';
 
 const RESUME_URL = '/resume/Vatsa_Arvind_Kala_Resume.pdf';
-const RESUME_PREVIEW_URL = `${RESUME_URL}#zoom=100`;
 
 const Hero = () => {
+  const [isResumeMobile, setIsResumeMobile] = useState(false);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(max-width: 640px)');
+    const updateResumeLayout = () => setIsResumeMobile(mediaQuery.matches);
+
+    updateResumeLayout();
+    mediaQuery.addEventListener('change', updateResumeLayout);
+
+    return () => mediaQuery.removeEventListener('change', updateResumeLayout);
+  }, []);
+
+  const resumePreviewUrl = useMemo(
+    () => `${RESUME_URL}#page=1&zoom=${isResumeMobile ? 'page-width' : '100'}`,
+    [isResumeMobile]
+  );
+
   const scrollToContact = () => {
     document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
   };
@@ -77,28 +93,25 @@ const Hero = () => {
                 </Button>
               </DialogTrigger>
 
-              <DialogContent className="sm:max-w-[90vw] max-w-5xl p-0 overflow-hidden">
-                <DialogHeader className="px-6 pt-6 pb-2 text-left">
+              <DialogContent className="w-[calc(100vw-0.75rem)] h-[calc(100svh-0.75rem)] max-w-none grid-rows-[auto_minmax(0,1fr)] gap-0 p-0 overflow-hidden sm:h-auto sm:max-h-[90svh] sm:max-w-[90vw] lg:max-w-5xl">
+                <DialogHeader className="px-4 pt-5 pb-3 pr-10 text-left sm:px-6 sm:pt-6 sm:pb-2">
                   <DialogTitle className="text-lg sm:text-xl font-semibold text-foreground">
                     Resume Preview
                   </DialogTitle>
-                  <DialogDescription className="text-xs sm:text-sm text-muted-foreground">
-                    Vatsa Arvind Kala | Data Engineering, Machine Learning & AI, Product Strategy
-                  </DialogDescription>
                 </DialogHeader>
 
-                <div className="px-6 pb-6">
-                  <div className="rounded-xl ring-1 ring-border overflow-hidden bg-background">
+                <div className="min-h-0 px-4 pb-4 flex flex-col sm:px-6 sm:pb-6">
+                  <div className="min-h-0 flex-1 rounded-xl ring-1 ring-border overflow-hidden bg-background">
                     <object
-                      data={RESUME_PREVIEW_URL}
+                      data={resumePreviewUrl}
                       type="application/pdf"
-                      className="w-full h-[70svh] block"
+                      className="w-full h-full min-h-[0] sm:h-[70svh] block"
                     >
-                      <embed src={RESUME_PREVIEW_URL} type="application/pdf" className="w-full h-[70svh] block" />
+                      <embed src={resumePreviewUrl} type="application/pdf" className="w-full h-full min-h-[0] sm:h-[70svh] block" />
                     </object>
                   </div>
 
-                  <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                  <div className="mt-3 flex shrink-0 flex-col gap-3 sm:mt-4 sm:flex-row sm:items-center sm:justify-between">
                     <p className="text-xs text-muted-foreground">
                       Can't see the preview?{" "}
                       <a
@@ -202,5 +215,4 @@ const Hero = () => {
 };
 
 export default Hero;
-
 
