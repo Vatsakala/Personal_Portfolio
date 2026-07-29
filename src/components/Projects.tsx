@@ -131,18 +131,17 @@ const Projects = () => {
   ];
 
   const ordered = [...projects.filter(p => p.featured), ...projects.filter(p => !p.featured)];
-  const appear = isIntersecting ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6';
-  const together =
-    'transition-opacity transition-transform duration-700 delay-200 will-change-transform';
-
   return (
     <section
       id="projects"
       ref={targetRef}
-      className={`scroll-mt-15 py-20 px-4 sm:px-6 lg:px-8 ${together} ${appear}`}
+      className="scroll-mt-15 py-20 px-4 sm:px-6 lg:px-8"
     >
-      <div className="max-w-7xl mx-auto">
-        <div className={`text-center mb-10 sm:mb-14 ${together} ${appear}`}>
+      <div className={`max-w-7xl mx-auto transition-opacity transition-transform duration-700 ${
+        isIntersecting ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'
+      }`}
+      >
+        <div className="text-center mb-10 sm:mb-14">
           <h2 className="text-4xl font-bold mb-4 hero-accent">Featured Projects</h2>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
             Showcasing innovative solutions that blend data science with practical applications

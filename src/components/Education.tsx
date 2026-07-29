@@ -234,17 +234,14 @@ const Education = () => {
     <section
       id="education"
       ref={targetRef}
-      className={`scroll-mt-15 py-20 px-4 sm:px-6 lg:px-8 transition-all duration-700 ${
+      className="scroll-mt-15 py-20 px-4 sm:px-6 lg:px-8"
+    >
+      <div className={`max-w-6xl mx-auto transition-opacity transition-transform duration-700 ${
         isIntersecting ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"
       }`}
-    >
-      <div className="max-w-6xl mx-auto">
+      >
         {/* Header */}
-        <div
-          className={`mb-12 transition-all duration-700 delay-100 ${
-            isIntersecting ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-          }`}
-        >
+        <div className="mb-12">
           <h2 className="text-4xl font-bold mb-4 hero-accent text-center">
             Education & Certifications
           </h2>
@@ -296,11 +293,7 @@ const Education = () => {
         </div>
 
         {/* Certifications */}
-        <div
-          className={`transition-all duration-700 delay-150 ${
-            isIntersecting ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"
-          }`}
-        >
+        <div>
           <div className="flex items-center justify-between mb-5">
             <h3 className="text-xl sm:text-2xl font-semibold text-foreground">Certifications</h3>
             <button

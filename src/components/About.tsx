@@ -25,17 +25,14 @@ const About = () => {
     <section
       id="about"
       ref={targetRef}
-      className={`scroll-mt-15 relative min-h-screen py-20 px-4 sm:px-6 lg:px-8 transition-all duration-1000 ${
+      className="scroll-mt-15 relative min-h-screen py-20 px-4 sm:px-6 lg:px-8"
+    >
+      <div className={`relative z-10 max-w-7xl mx-auto transition-opacity transition-transform duration-700 ${
         isIntersecting ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'
       }`}
-    >
-      <div className="relative z-10 max-w-7xl mx-auto">
+      >
         {/* Header */}
-        <div
-          className={`text-center mb-16 transition-all duration-700 delay-200 ${
-            isIntersecting ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-8 scale-95'
-          }`}
-        >
+        <div className="text-center mb-16">
           <h2 className="text-4xl font-bold mb-4 hero-accent">About Me</h2>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
             Driven by curiosity and passion for innovation
@@ -46,11 +43,7 @@ const About = () => {
         <div className="grid lg:grid-cols-5 gap-8 sm:gap-10 lg:gap-12 items-start">
           {/* Profile Image */}
           <div className="lg:col-span-2 flex justify-center lg:justify-start">
-            <div
-              className={`transition-all duration-700 delay-300 ${
-                isIntersecting ? 'opacity-100 translate-x-0 translate-y-0' : 'opacity-0 -translate-x-8 translate-y-4'
-              }`}
-            >
+            <div>
               <div className="relative group">
                 <div className="w-64 h-64 sm:w-80 sm:h-80 lg:w-96 lg:h-96 rounded-3xl overflow-hidden transition-all duration-300 ease-in-out hover:scale-105 shadow-lg">
                   <img
@@ -65,11 +58,7 @@ const About = () => {
 
           {/* Journey */}
           <div className="lg:col-span-3 space-y-8">
-            <div
-              className={`p-6 sm:p-8 transition-all duration-700 delay-500 ${
-                isIntersecting ? 'opacity-100 translate-x-0 translate-y-0' : 'opacity-0 translate-x-8 translate-y-8'
-              }`}
-            >
+            <div className="p-6 sm:p-8">
               <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-6 text-foreground">My Journey</h3>
               <div className="space-y-4 text-foreground/80 text-[1.05rem] leading-relaxed font-normal">
                 <p>
@@ -81,11 +70,7 @@ const About = () => {
         </div>
 
         {/* Key Highlights */}
-        <div
-          className={`mt-12 transition-all duration-700 delay-700 ${
-            isIntersecting ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-          }`}
-        >
+        <div className="mt-12">
           <h3 className="text-2xl sm:text-3xl font-bold mb-6 text-foreground text-center">Key Highlights</h3>
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
             {stats.map((stat, index) => (

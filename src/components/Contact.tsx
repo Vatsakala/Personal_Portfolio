@@ -75,22 +75,15 @@ const Contact = () => {
     <section
       id="contact"
       ref={targetRef}
-      className={`
-        scroll-mt-15 py-20 px-4 sm:px-6 lg:px-8
-        ${isIntersecting ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'}
-        transition-opacity transition-transform duration-700
-        overflow-x-clip
-      `}
+      className="scroll-mt-15 py-20 px-4 sm:px-6 lg:px-8 overflow-x-clip"
     >
-      <div className="max-w-6xl mx-auto">
+      <div
+        className={`max-w-6xl mx-auto transition-opacity transition-transform duration-700
+        ${isIntersecting ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'}
+      `}
+      >
         {/* Section header */}
-        <div
-          className={`
-            text-center mb-16
-            ${isIntersecting ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}
-            transition-opacity transition-transform duration-700 delay-200
-          `}
-        >
+        <div className="text-center mb-16">
           <h2 className="text-4xl font-bold mb-4 hero-accent">Let's Connect</h2>
           <p className="text-muted-foreground text-lg">
             Ready to discuss opportunities, collaborate on projects, or just have a chat about data science and technology
@@ -105,8 +98,6 @@ const Contact = () => {
               glass-card p-6 sm:p-4 w-full
               max-w-md sm:max-w-lg mx-auto
               lg:max-w-none lg:mx-0 lg:col-span-3
-              ${isIntersecting ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8'}
-              transition-opacity transition-transform duration-700 delay-300
               overflow-hidden
             `}
           >
@@ -196,8 +187,6 @@ const Contact = () => {
               space-y-12 w-full
               max-w-md sm:max-w-lg mx-auto
               lg:max-w-none lg:mx-0 lg:col-span-2
-              ${isIntersecting ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-8'}
-              transition-opacity transition-transform duration-700 delay-400
               overflow-hidden
             `}
           >
@@ -210,8 +199,7 @@ const Contact = () => {
                     href={info.href}
                     className={`
                       flex items-center gap-4 p-4 rounded-lg hover:bg-card/50
-                      ${isIntersecting ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}
-                      transition-opacity transition-transform duration-300 ${index === 0 ? 'delay-500' : 'delay-600'}
+                      transition-colors
                     `}
                   >
                     <div className="w-12 h-12 bg-primary/20 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-200">
@@ -241,9 +229,7 @@ const Contact = () => {
                       rel="noopener noreferrer"
                       className={`
                         flex items-center justify-center gap-2 px-4 py-2 rounded-lg hover:bg-card/50
-                        ${isIntersecting ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}
-                        transition-all duration-300
-                        ${index === 0 ? 'delay-600' : index === 1 ? 'delay-700' : 'delay-800'}
+                        transition-colors duration-300
                         ${
                           isLinkedinOrGithub
                             ? 'max-sm:active:scale-110 max-sm:hover:animate-pulse'

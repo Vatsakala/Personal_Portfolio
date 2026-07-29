@@ -84,20 +84,14 @@ const Experience = () => {
     <section
       id="experience"
       ref={targetRef}
-      className={`scroll-mt-15 py-20 px-4 sm:px-6 lg:px-8 transition-all duration-1000 ${
+      className="scroll-mt-15 py-20 px-4 sm:px-6 lg:px-8"
+    >
+      <div className={`max-w-5xl mx-auto transition-opacity transition-transform duration-700 ${
         isIntersecting ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'
       }`}
-    >
-      <div className="max-w-5xl mx-auto">
+      >
         {/* Header */}
-        <div
-          className="text-center mb-16 transition-all duration-700"
-          style={{
-            transitionDelay: '200ms',
-            opacity: isIntersecting ? 1 : 0,
-            transform: `translateY(${isIntersecting ? 0 : 8}px)`,
-          }}
-        >
+        <div className="text-center mb-16">
           <h2 className="text-4xl font-bold mb-4 hero-accent">Professional Experience</h2>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
             Building expertise through hands-on internships and real-world projects
@@ -107,36 +101,13 @@ const Experience = () => {
         {/* Timeline */}
         <div className="relative">
           {/* vertical line */}
-          <div
-            className="absolute left-8 top-0 bottom-0 w-0.5 bg-border hidden md:block transition-all duration-1000"
-            style={{
-              transitionDelay: '300ms',
-              opacity: isIntersecting ? 1 : 0,
-              transform: `scaleY(${isIntersecting ? 1 : 0})`,
-              transformOrigin: 'top',
-            }}
-          />
+          <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-border hidden md:block" />
 
           <div className="space-y-10">
             {experiences.map((exp, index) => (
-              <div
-                key={index}
-                className="relative transition-all duration-700"
-                style={{
-                  transitionDelay: `${400 + index * 200}ms`,
-                  opacity: isIntersecting ? 1 : 0,
-                  transform: `translateX(${isIntersecting ? 0 : 8}px)`,
-                }}
-              >
+              <div key={index} className="relative">
                 {/* timeline dot */}
-                <div
-                  className="absolute left-6 w-4 h-4 bg-primary rounded-full border-4 border-background hidden md:block transition-all duration-500"
-                  style={{
-                    transitionDelay: `${500 + index * 200}ms`,
-                    opacity: isIntersecting ? 1 : 0,
-                    transform: `scale(${isIntersecting ? 1 : 0})`,
-                  }}
-                />
+                <div className="absolute left-6 w-4 h-4 bg-primary rounded-full border-4 border-background hidden md:block" />
 
                 {/* card */}
                 <div className="md:ml-16">

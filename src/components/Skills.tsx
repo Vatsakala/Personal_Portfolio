@@ -99,17 +99,14 @@ const Skills = () => {
     <section
       id="skills"
       ref={targetRef}
-      className={`scroll-mt-15 py-20 px-4 sm:px-6 lg:px-8 transition-opacity transition-transform duration-1000 ${
+      className="scroll-mt-15 py-20 px-4 sm:px-6 lg:px-8"
+    >
+      <div className={`max-w-7xl mx-auto transition-opacity transition-transform duration-700 ${
         isIntersecting ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'
       }`}
-    >
-      <div className="max-w-7xl mx-auto">
+      >
         {/* Header */}
-        <div
-          className={`text-center mb-16 transition-opacity transition-transform duration-700 delay-200 ${
-            isIntersecting ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-          }`}
-        >
+        <div className="text-center mb-16">
           <h2 className="text-4xl font-bold mb-4 hero-accent">Skills & Technologies</h2>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
             A comprehensive toolkit for data science and full-stack development
@@ -117,12 +114,7 @@ const Skills = () => {
         </div>
 
         {/* Collapsible Cards — unified entrance */}
-        <div
-          className={`grid md:grid-cols-2 lg:grid-cols-4 gap-8
-            transition-opacity transition-transform duration-700 transform-gpu will-change-[opacity,transform]
-            ${isIntersecting ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}
-          `}
-        >
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
           {skillCategories.map((category, index) => {
             const Icon = category.icon;
             const open = openSet.has(index);
