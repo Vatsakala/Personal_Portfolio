@@ -1,7 +1,16 @@
-import { Download, Mail, Github, Linkedin } from 'lucide-react';
+import { Download, Eye, Mail, Github, Linkedin } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogTrigger,
+} from '@/components/ui/dialog';
 
 const RESUME_URL = '/resume/Vatsa_Arvind_Kala_Resume.pdf';
+const RESUME_PREVIEW_URL = `${RESUME_URL}#zoom=100`;
 
 const Hero = () => {
   const scrollToContact = () => {
@@ -57,21 +66,70 @@ const Hero = () => {
 
           {/* Buttons — side by side on all screens */}
           <div className="flex flex-row flex-wrap justify-center gap-4">
-            <Button
-              asChild
-              className="group w-auto sm:w-64 px-6 py-3 bg-gradient-to-r from-primary to-accent hover:opacity-95 text-white font-medium rounded-lg transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl border-0"
-            >
-              <a
-                href={RESUME_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                download="Vatsa_Arvind_Kala_Resume.pdf"
-                aria-label="Download resume (opens in new tab)"
-              >
-                <Download className="mr-2 h-5 w-5 transition-transform group-hover:scale-110 inline-block" />
-                Download Resume
-              </a>
-            </Button>
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button
+                  className="group w-auto sm:w-64 px-6 py-3 bg-gradient-to-r from-primary to-accent hover:opacity-95 text-white font-medium rounded-lg transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl border-0"
+                  aria-label="View resume"
+                >
+                  <Eye className="mr-2 h-5 w-5 transition-transform group-hover:scale-110 inline-block" />
+                  View Resume
+                </Button>
+              </DialogTrigger>
+
+              <DialogContent className="sm:max-w-[90vw] max-w-5xl p-0 overflow-hidden">
+                <DialogHeader className="px-6 pt-6 pb-2 text-left">
+                  <DialogTitle className="text-lg sm:text-xl font-semibold text-foreground">
+                    Resume Preview
+                  </DialogTitle>
+                  <DialogDescription className="text-xs sm:text-sm text-muted-foreground">
+                    Vatsa Arvind Kala | Data Engineering, Machine Learning & AI, Product Strategy
+                  </DialogDescription>
+                </DialogHeader>
+
+                <div className="px-6 pb-6">
+                  <div className="rounded-xl ring-1 ring-border overflow-hidden bg-background">
+                    <object
+                      data={RESUME_PREVIEW_URL}
+                      type="application/pdf"
+                      className="w-full h-[70svh] block"
+                    >
+                      <embed src={RESUME_PREVIEW_URL} type="application/pdf" className="w-full h-[70svh] block" />
+                    </object>
+                  </div>
+
+                  <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                    <p className="text-xs text-muted-foreground">
+                      Can't see the preview?{" "}
+                      <a
+                        href={RESUME_URL}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="underline text-primary"
+                      >
+                        Open it in a new tab
+                      </a>
+                      .
+                    </p>
+                    <div className="flex flex-col gap-2 sm:flex-row">
+                      <Button
+                        asChild
+                        className="bg-gradient-to-r from-primary to-accent hover:opacity-95 text-white font-medium rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl border-0"
+                      >
+                        <a
+                          href={RESUME_URL}
+                          download="Vatsa_Arvind_Kala_Resume.pdf"
+                          aria-label="Download resume"
+                        >
+                          <Download className="mr-2 h-4 w-4" />
+                          Download
+                        </a>
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              </DialogContent>
+            </Dialog>
 
             <Button
               variant="outline"

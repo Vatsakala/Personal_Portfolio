@@ -51,8 +51,7 @@ const Education = () => {
       school: "Texas A&M University",
       location: "College Station, TX",
       duration: "2024 – 2026",
-      gpa: "3.83/4.0",
-      status: "Expected Graduation: May 2026",
+      gpa: "3.785/4.0",
       coursework: [
         "Advanced Database Systems",
         "MIS Project Management",
