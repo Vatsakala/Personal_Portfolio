@@ -7,7 +7,7 @@ const About = () => {
   // Logo files served from /public
   // `tint` is used only for the small border around the white bubble (brand hint).
   const stats = [
-    { img: '/GPA.svg',        alt: 'GPA',            label: "Texas A&M, MIS",                     value: '3.8/4 GPA',          tint: '#500000' }, // maroon
+    { img: '/GPA.svg',        alt: 'GPA',            label: "Texas A&M, MIS",                     value: '3.78/4 GPA',          tint: '#500000' }, // maroon
     { img: '/TT.png',         alt: 'Internships',    label: 'In Data, ML and Product Design',     value: '4 Internships',       tint: '#1DA1F2' }, // blue
     { img: '/Projects.svg',   alt: 'Projects',       label: 'Blending data, AI & full-stack dev', value: '15+ Projects',        tint: '#6B7280' }, // gray (GitHub vibe)
     { img: '/Certificate.svg',alt: 'Certifications', label: 'AWS, Azure, Scrum',                  value: '15+ Certifications',  tint: '#FF9900' }, // AWS orange
