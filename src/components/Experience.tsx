@@ -8,6 +8,7 @@ type ExperienceItem = {
   duration: string;
   highlights: string[];
   logoSrc: string;
+  logoDarkSrc?: string;
   logoAlt?: string;
 };
 
@@ -15,6 +16,20 @@ const Experience = () => {
   const { targetRef, isIntersecting } = useIntersectionObserver();
 
   const experiences: ExperienceItem[] = [
+    {
+      company: 'Amazon',
+      role: 'Software Development Engineer',
+      location: 'Austin, TX',
+      duration: 'Sep 2026 - Present',
+      highlights: [
+        'Automated multiple end-to-end test scenarios in Cucumber.js as owner of the Fire TV channel manager, building reusable components across 2 operating systems to cover all user entry points into a business-critical workflow',
+        'Elevated reliability of the channel manager by debugging intermittent failures with device logs, input timing, and UI snapshots, and separating product defects from environment issues and partnering with owning teams to resolve them',
+        'Developed clean, maintainable TypeScript code and technical documentation for the channel manager feature in an agile team, contributing to design discussions and code reviews and owning changes from design through deployment',
+      ],
+      logoSrc: '/logos/Amazon.svg',
+      logoDarkSrc: '/logos/Amazon-dark.svg',
+      logoAlt: 'Amazon',
+    },
     {
       company: 'Texas A&M University',
       role: 'Graduate Teaching Assistant',
@@ -116,13 +131,32 @@ const Experience = () => {
                     <div className="grid grid-cols-1 md:grid-cols-[160px_minmax(0,1fr)] gap-6 items-center">
                       {/* logo */}
                       <div className="flex items-center justify-center self-center">
-                        <img
-                          src={exp.logoSrc}
-                          alt={exp.logoAlt || `${exp.company} logo`}
-                          className="block object-contain w-auto h-32 md:h-36 mx-auto"
-                          loading="lazy"
-                          decoding="async"
-                        />
+                        {exp.logoDarkSrc ? (
+                          <>
+                            <img
+                              src={exp.logoSrc}
+                              alt={exp.logoAlt || `${exp.company} logo`}
+                              className="block dark:hidden object-contain w-auto h-32 md:h-36 mx-auto"
+                              loading="lazy"
+                              decoding="async"
+                            />
+                            <img
+                              src={exp.logoDarkSrc}
+                              alt={exp.logoAlt || `${exp.company} logo`}
+                              className="hidden dark:block object-contain w-auto h-32 md:h-36 mx-auto"
+                              loading="lazy"
+                              decoding="async"
+                            />
+                          </>
+                        ) : (
+                          <img
+                            src={exp.logoSrc}
+                            alt={exp.logoAlt || `${exp.company} logo`}
+                            className="block object-contain w-auto h-32 md:h-36 mx-auto"
+                            loading="lazy"
+                            decoding="async"
+                          />
+                        )}
                       </div>
 
                       {/* right side */}
