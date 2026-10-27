@@ -78,7 +78,8 @@ const Experience = () => {
         'Improved diagnostic workflows by integrating scalable big-data solutions into daily operations.',
       ],
       logoSrc: '/logos/ARK.svg',
-      logoAlt: 'ARK',
+      logoDarkSrc: '/logos/ARK-dark.svg',
+      logoAlt: 'ARK Meditech Systems',
     },
     {
       company: 'E-infochips',
